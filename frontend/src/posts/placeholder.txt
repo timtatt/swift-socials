@@ -1,0 +1,8 @@
+// const exportDom = () => {
+// 	if (previewRef && previewRef.current != null) {
+// 		domToImage.toBlob(previewRef.current as Node).then((blob: Blob) => {
+// 			fileSaver.saveAs(blob, 'test.png');
+// 		});
+
+// 	}
+// }
