@@ -1,5 +1,4 @@
-import React, { ChangeEvent, MutableRefObject, useEffect, useRef, useState } from 'react';
-import logo from './logo.svg';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import './App.scss';
 import CSS from 'csstype';
 import domToImage from 'dom-to-image';
@@ -10,11 +9,12 @@ import Editor from "@monaco-editor/react";
 import { Monaco } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 import Parser from 'html-react-parser';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Card } from 'react-bootstrap';
+import Mustache from 'mustache';
 
 const previewProps: CSS.Properties = {
-	background: 'red', 
-	width: '400px', 
+	background: 'red',
+	width: '400px',
 	height: '400px'
 }
 
@@ -26,7 +26,7 @@ export default function App() {
 	const [postHtml, setPostHtml] = useState("");
 	const [postStyle, setPostStyle] = useState("");
 	const [template, setTemplate] = useState<Template | null>(null);
-	
+
 	const exportDom = () => {
 		if (previewRef && previewRef.current != null) {
 			domToImage.toBlob(previewRef.current as Node).then((blob: Blob) => {
@@ -34,7 +34,7 @@ export default function App() {
 			});
 		}
 	}
-	
+
 	useEffect(() => {
 		db.getTemplate().then(template => {
 			setTemplate(template);
@@ -67,7 +67,12 @@ export default function App() {
 
 	const updateHtml = (value: string | undefined) => {
 		if (value && template) {
-			setPostHtml(value);
+			try {
+				const renderedHtml = Mustache.render(value, template.getDummyData());
+				setPostHtml(renderedHtml);
+			} catch (err) {
+				console.debug('Unable to render mustache', err);
+			}
 		}
 	}
 
@@ -80,8 +85,17 @@ export default function App() {
 	}
 
 	let field;
+	let dummyData;
 	if (template) {
 		field = <Form.Control type="text" value={template.name} onChange={handleChange} />;
+		dummyData = (
+			<Card body>
+				<Card.Title>Sample Data</Card.Title>
+				<pre>
+					<code>{JSON.stringify(template.getDummyData(), null, 2)}</code>
+				</pre>
+			</Card>
+		);
 	}
 
 	return (
@@ -89,6 +103,7 @@ export default function App() {
 			<Container fluid>
 				<Row className="g-0">
 					<Col>
+						{/* TODO: scaling export to 1200x1200 */}
 						<div style={previewProps} ref={previewRef}>
 							{/* TODO: add sanitising for XSS */}
 							{Parser(postHtml)}
@@ -103,6 +118,9 @@ export default function App() {
 								<Button onClick={saveTemplate}>Save Template</Button>
 							</Col>
 						</Row>
+					</Col>
+					<Col>
+						{dummyData}
 					</Col>
 					<Col>
 						<Editor

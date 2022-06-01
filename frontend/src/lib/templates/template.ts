@@ -15,4 +15,11 @@ export class Template {
 		});
 	}
 
+	getDummyData() {
+		return {
+			someField: 'thisisthevalue',
+			anotherField: 102
+		}
+	}
+
 }
