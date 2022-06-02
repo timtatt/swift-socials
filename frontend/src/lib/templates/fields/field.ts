@@ -12,7 +12,7 @@ export interface Field {
 	type: FieldType;
 	defaultValue: string; // allows support for non-string values
 	options?: FieldOption[];
-	children?: Field[];
+	children?: Map<string, Field>;
 }
 
 export abstract class AbstractField {
@@ -25,4 +25,7 @@ export abstract class AbstractField {
 	}
 
 	abstract getDummyData(): any;
+	abstract renderField(): JSX.Element;
+	abstract renderFieldEditor(setField: (field: Field) => void): JSX.Element;
 }
+

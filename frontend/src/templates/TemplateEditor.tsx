@@ -11,6 +11,7 @@ import { Container, Row, Col, Button, Form, Card, Tabs, Tab } from 'react-bootst
 import Mustache from 'mustache';
 import { getDummyData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
+import Immutable from 'immutable';
 
 
 export default function App() {
@@ -66,9 +67,15 @@ export default function App() {
 		})
 	}
 
-	const fieldsUpdated = (fields: Map<string, Field>) => {
+	const fieldsUpdated = (fields: Immutable.Map<string, Field>) => {
 		if (template) {
-			template.form = fields;
+			template.form.clear();
+			
+			console.log(fields.toJS());
+			for (const [fieldName, field] of Object.entries(fields.toObject())) {
+				template.form.set(fieldName, field as Field);
+			}
+
 			setDummyData(getDummyData(template));
 		}
 	}
