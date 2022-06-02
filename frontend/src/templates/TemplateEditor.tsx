@@ -4,10 +4,13 @@ import { Template } from './../lib/templates/template';
 import Editor from "@monaco-editor/react";
 import { Monaco } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
-import PreviewTemplate from './PreviewTemplate';
+import TemplatePreview from './TemplatePreview';
+import FormEditor from './FormEditor';
 
 import { Container, Row, Col, Button, Form, Card, Tabs, Tab } from 'react-bootstrap';
 import Mustache from 'mustache';
+import { getDummyData, saveTemplate } from './../lib/templates/template';
+import { Field } from '../lib/templates/fields';
 
 
 export default function App() {
@@ -16,21 +19,23 @@ export default function App() {
 
 	const [postHtml, setPostHtml] = useState("");
 	const [postStyle, setPostStyle] = useState("");
+	const [dummyData, setDummyData] = useState<any>({});
 	const [template, setTemplate] = useState<Template | null>(null);
 
 	useEffect(() => {
 		db.getTemplate().then(template => {
 			setTemplate(template);
+			setDummyData(getDummyData(template));
 			setPostHtml(template.layout);
 			setPostStyle(template.style);
 		});
 	}, []);
 
-	const saveTemplate = () => {
+	const saveTemplateToDb = () => {
 		if (template) {
 			template.layout = postHtml;
 			template.style = postStyle;
-			template.save();
+			saveTemplate(template);
 		}
 	}
 
@@ -45,7 +50,7 @@ export default function App() {
 	const updateHtml = (value: string | undefined) => {
 		if (value && template) {
 			try {
-				const renderedHtml = Mustache.render(value, template.getDummyData());
+				const renderedHtml = Mustache.render(value, dummyData);
 				setPostHtml(renderedHtml);
 			} catch (err) {
 				console.debug('Unable to render mustache', err);
@@ -61,37 +66,37 @@ export default function App() {
 		})
 	}
 
-	let field;
-	let dummyData;
-	if (template) {
-		field = <Form.Control type="text" value={template.name} onChange={event => template.name = event.target.value} />;
-		dummyData = (
-			<Card body>
-				<Card.Title>Sample Data</Card.Title>
-				<pre>
-					<code>{JSON.stringify(template.getDummyData(), null, 2)}</code>
-				</pre>
-			</Card>
-		);
+	const fieldsUpdated = (fields: Map<string, Field>) => {
+		if (template) {
+			template.form = fields;
+			setDummyData(getDummyData(template));
+		}
 	}
 
-	return (
+	return template ? (
 		<div className="App">
 			<Container fluid>
 				<Row className="g-0">
 					<Col>
-						<PreviewTemplate layout={postHtml} style={postStyle} />
+						<TemplatePreview layout={postHtml} style={postStyle} />
 						<Row>
-							<Col>{field}</Col>
+							<Col>
+								<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />
+							</Col>
 						</Row>
 						<Row>
 							<Col>
-								<Button onClick={saveTemplate}>Save Template</Button>
+								<Button onClick={saveTemplateToDb}>Save Template</Button>
 							</Col>
 						</Row>
 					</Col>
 					<Col>
-						{dummyData}
+						<Card body>
+							<Card.Title>Sample Data</Card.Title>
+							<pre>
+								<code>{JSON.stringify(dummyData, null, 2)}</code>
+							</pre>
+						</Card>
 					</Col>
 					<Col>
 						<Tabs>
@@ -121,9 +126,14 @@ export default function App() {
 					</Col>
 				</Row>
 				<Row>
-
+					<Col>
+						<FormEditor fields={template.form} onFieldUpdate={fieldsUpdated} />
+					</Col>
 				</Row>
 			</Container>
 		</div>
+	) : (
+		<div></div>
 	);
+
 }

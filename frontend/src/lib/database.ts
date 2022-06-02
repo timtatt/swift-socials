@@ -9,14 +9,21 @@ export class SwiftSocialsDB extends Dexie {
 		this.version(1).stores({
 			templates: '++id',
 		});
-		this.templates.mapToClass(Template);
 	}
 
 	async getTemplate(): Promise<Template> {
-		var template = await this.templates.get(1);
+		const templates: Template[] = await this.templates.toArray();
+		var template = templates[0];
+
+		console.log(template);
 
 		if (!template) {
-			template = new Template();
+			template = {
+				style: ".Post {\n\n}",
+				layout: "<div class=\"Post\">New Post</div>",
+				name: "New Template",
+				form: new Map()
+			};
 		}
 
 		return template;

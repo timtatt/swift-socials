@@ -1,25 +1,25 @@
-import { Field } from "./fields/field";
+import { getField, Field } from "./fields";
 import { db } from './../database';
 
-export class Template {
-	id!: number;
-	form: Field[] = [];
-	style: string = '';
-	layout: string = '';
-	name: string = '';
+export interface Template {
+	id?: number
+	style: string
+	layout: string
+	name: string
+	form: Map<string, Field>
+}
 
-	async save() {
+export const saveTemplate = async (template: Template) => {
 		await db.transaction('rw', db.templates, async () => {
-			const res = await db.templates.put(this, this.id);
-			this.id = res;
+			const res = await db.templates.put(template, template.id);
+			template.id = res;
 		});
-	}
+}
 
-	getDummyData() {
-		return {
-			someField: 'thisisthevalue',
-			anotherField: 102
-		}
+export const getDummyData = (template: Template): any => {
+	const dummyData: any = {};
+	for (const [fieldName, field] of template.form) {
+		dummyData[fieldName] = getField(field, fieldName).getDummyData();
 	}
-
+	return dummyData;
 }

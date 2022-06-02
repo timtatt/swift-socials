@@ -1,8 +1,28 @@
+
 export enum FieldType {
-	TEXT_FIELD
+	TEXT_FIELD = "TextField"
 }
 
-export abstract class Field {
-	name: string = '';
-	type: FieldType = FieldType.TEXT_FIELD;
+export interface FieldOption {
+	name: string;
+	title: string;
+}
+
+export interface Field {
+	type: FieldType;
+	defaultValue: string; // allows support for non-string values
+	options?: FieldOption[];
+	children?: Field[];
+}
+
+export abstract class AbstractField {
+	abstract type: FieldType;
+	protected field: Field;
+	protected name?: string;
+
+	constructor(field: Field, name?: string) {
+		this.field = field;
+	}
+
+	abstract getDummyData(): any;
 }

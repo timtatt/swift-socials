@@ -1,11 +1,11 @@
 import Parser from 'html-react-parser';
 
-interface PreviewTemplateProps {
+interface TemplatePreviewProps {
 	layout: string,
 	style: string
 }
 
-export default function PreviewTemplate(props: PreviewTemplateProps) {
+export default function TemplatePreview(props: TemplatePreviewProps) {
 	return (
 		<div>
 			<div style={{
