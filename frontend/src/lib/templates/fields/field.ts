@@ -1,6 +1,8 @@
+import { RefObject } from "react";
 
 export enum FieldType {
-	TEXT_FIELD = "TextField"
+	TEXT_FIELD = "TextField",
+	DROPDOWN = "Dropdown"
 }
 
 export interface FieldOption {
@@ -26,6 +28,6 @@ export abstract class AbstractField {
 
 	abstract getDummyData(): any;
 	abstract renderField(): JSX.Element;
-	abstract renderFieldEditor(setField: (field: Field) => void): JSX.Element;
+	abstract renderFieldEditor(setField: (field: Field) => void, defaultValueRef: RefObject<HTMLSelectElement>): JSX.Element;
 }
 

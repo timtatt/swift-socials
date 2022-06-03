@@ -4,6 +4,7 @@ import { getField } from './../lib/templates/fields';
 import { useState } from 'react';
 import { faker } from '@faker-js/faker';
 import Immutable from 'immutable';
+import { FieldEditor } from './FieldEditor';
 
 interface FormEditorProps {
 	fields?: Map<string, Field>,
@@ -34,6 +35,10 @@ export default function FormEditor({fields = new Map<string, Field>(), onFieldUp
 	const editField = (fieldName: string, field: Field) => {
 		updateFields(iFields.set(fieldName, field));
 	}
+
+	const editFieldName = (prevFieldName: string, fieldName: string, field: Field) => {
+		updateFields(iFields.remove(prevFieldName).set(fieldName, field));
+	}
 	
 	const clearFields = () => {
 		updateFields(iFields.clear());
@@ -44,21 +49,14 @@ export default function FormEditor({fields = new Map<string, Field>(), onFieldUp
 		onFieldUpdate(fields);
 	}
 
-
-	let form = [];
-
-	for (const [fieldName, field] of iFields.entries()) {
-		form.push((
-			<div>{getField(field).renderFieldEditor(() => editField(fieldName, field))}</div>
-		));
-	}
-
 	return (
 		<div>
-			<Row>
-				<Col>
-					{form}
-				</Col>
+			<Row md={5} className="g-4">
+				{iFields.map((field, fieldName) => (
+					<Col>
+						<FieldEditor key={fieldName} fieldName={fieldName} field={field} onFieldUpdate={() => editField(fieldName, field)} onFieldNameUpdate={newFieldName => editFieldName(fieldName, newFieldName, field)} />
+					</Col>
+				)).valueSeq()}
 			</Row>
 			<Button onClick={addField}>Add Field</Button>
 			<Button onClick={clearFields}>Clear Fields</Button>

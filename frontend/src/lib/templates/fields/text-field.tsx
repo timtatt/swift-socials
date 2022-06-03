@@ -30,9 +30,12 @@ export class TextField extends AbstractField {
 		};
 
 		return (
-			<div>
-				<Form.Control defaultValue={this.field.defaultValue} onChange={updateDefaultValue} />
-			</div>
+			<>
+				<Form.Group className="mb-3">
+					<Form.Label>Default Value</Form.Label>
+					<Form.Control defaultValue={this.field.defaultValue} onChange={updateDefaultValue} />
+				</Form.Group>
+			</>
 		);
 	}
 
