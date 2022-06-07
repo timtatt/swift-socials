@@ -5,8 +5,8 @@ import { ChangeEvent, RefObject } from "react";
 export class DropdownField extends AbstractField {
 	type = FieldType.DROPDOWN
 
-	constructor(field: Field, name?: string) {
-		super(field, name);
+	constructor(field: Field) {
+		super(field);
 	}
 
 	getDummyData() {
@@ -22,7 +22,6 @@ export class DropdownField extends AbstractField {
 	}
 
 	renderFieldEditor(setField: (field: Field) => void, defaultValueRef: RefObject<HTMLSelectElement>) {
-		
 
 		const updateDefaultValue = (event: ChangeEvent<HTMLSelectElement>) => {
 			this.field.defaultValue = event.target.value;

@@ -11,6 +11,7 @@ export interface FieldOption {
 }
 
 export interface Field {
+	name: string;
 	type: FieldType;
 	defaultValue: string; // allows support for non-string values
 	options?: FieldOption[];
@@ -20,7 +21,6 @@ export interface Field {
 export abstract class AbstractField {
 	abstract type: FieldType;
 	protected field: Field;
-	protected name?: string;
 
 	constructor(field: Field, name?: string) {
 		this.field = field;

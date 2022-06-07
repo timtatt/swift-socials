@@ -6,7 +6,7 @@ export interface Template {
 	style: string
 	layout: string
 	name: string
-	form: Map<string, Field>
+	form: Field[]
 }
 
 export const saveTemplate = async (template: Template) => {
@@ -18,8 +18,8 @@ export const saveTemplate = async (template: Template) => {
 
 export const getDummyData = (template: Template): any => {
 	const dummyData: any = {};
-	for (const [fieldName, field] of template.form) {
-		dummyData[fieldName] = getField(field, fieldName).getDummyData();
+	for (const field of template.form) {
+		dummyData[field.name] = getField(field).getDummyData();
 	}
 	return dummyData;
 }

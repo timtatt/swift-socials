@@ -67,13 +67,12 @@ export default function App() {
 		})
 	}
 
-	const fieldsUpdated = (fields: Immutable.Map<string, Field>) => {
+	const fieldsUpdated = (fields: Immutable.List<Field>) => {
 		if (template) {
-			template.form.clear();
+			template.form = [];
 			
-			console.log(fields.toJS());
-			for (const [fieldName, field] of Object.entries(fields.toObject())) {
-				template.form.set(fieldName, field as Field);
+			for (const field of fields) {
+				template.form.push(field);
 			}
 
 			setDummyData(getDummyData(template));
@@ -140,7 +139,7 @@ export default function App() {
 			</Container>
 		</div>
 	) : (
-		<div></div>
+		<></>
 	);
 
 }

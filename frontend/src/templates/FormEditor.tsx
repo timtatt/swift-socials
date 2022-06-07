@@ -1,5 +1,5 @@
 import { Field, FieldType } from './../lib/templates/fields';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button, Row, Col, Alert } from 'react-bootstrap';
 import { getField } from './../lib/templates/fields';
 import { useState } from 'react';
 import { faker } from '@faker-js/faker';
@@ -7,18 +7,30 @@ import Immutable from 'immutable';
 import { FieldEditor } from './FieldEditor';
 
 interface FormEditorProps {
-	fields?: Map<string, Field>,
-	onFieldUpdate?: (fields: Immutable.Map<string, Field>) => void
+	fields?: Field[],
+	onFieldUpdate?: (fields: Immutable.List<Field>) => void
 }
 
-export default function FormEditor({fields = new Map<string, Field>(), onFieldUpdate = () => {}}: FormEditorProps) {
+interface AlertState {
+	message?: string,
+	show: boolean
+}
 
-	const [iFields, setFields] = useState(Immutable.Map(fields.entries()));
+export default function FormEditor({fields = [], onFieldUpdate = () => {}}: FormEditorProps) {
+
+	const [iFields, setFields] = useState(Immutable.List(fields));
+	const [alert, setAlert] = useState<AlertState>({
+		show: false
+	});
 
 	const addField = () => {
 		var fieldName = "newField";
+		const currentFieldNames: Set<string> = new Set(iFields.map(field => field.name));
+
+		console.log(currentFieldNames);
+
 		for (let i = 0; i < 100; i++) {
-			if (!fields.has(fieldName + i)) {
+			if (!currentFieldNames.has(fieldName + i)) {
 				fieldName = fieldName + i;
 				break;
 			}
@@ -26,40 +38,63 @@ export default function FormEditor({fields = new Map<string, Field>(), onFieldUp
 
 		console.log("Adding field " + fieldName);
 
-		editField(fieldName, {
+		setFields(iFields.push({
+			name: fieldName,
 			type: FieldType.TEXT_FIELD,
 			defaultValue: faker.name.findName()
-		});
+		}));
 	}
 
-	const editField = (fieldName: string, field: Field) => {
-		updateFields(iFields.set(fieldName, field));
+	const editField = (field: Field, index: number) => {
+		setFields(iFields.set(index, Object.assign({}, field)));
 	}
 
-	const editFieldName = (prevFieldName: string, fieldName: string, field: Field) => {
-		updateFields(iFields.remove(prevFieldName).set(fieldName, field));
+	const verifyNames: () => boolean = () => {
+		const duplicateNames: Set<string> = new Set();
+		const names: Set<String> = new Set();
+
+		for (const field of iFields) {
+			if (names.has(field.name)) {
+				duplicateNames.add(field.name);
+			}
+			names.add(field.name);
+		}
+
+		if (duplicateNames.size > 0) {
+			setAlert({
+				message: `Detected duplicate field names for ${Array.from(duplicateNames).join(', ')}. Please fix before saving`,
+				show: true
+			});
+			return false;
+		}
+
+		return true;
+	}
+
+	const saveForm = () => {
+		if (verifyNames()) {
+			onFieldUpdate(iFields);
+		}
 	}
 	
 	const clearFields = () => {
-		updateFields(iFields.clear());
+		setFields(iFields.clear());
 	}
 
-	const updateFields = (fields: Immutable.Map<string, Field>) => {
-		setFields(fields);
-		onFieldUpdate(fields);
-	}
 
 	return (
-		<div>
+		<>
+			{alert.show ? <Alert variant="danger">{alert.message}</Alert> : ""}
 			<Row md={5} className="g-4">
-				{iFields.map((field, fieldName) => (
+				{iFields.map((field, index) => (
 					<Col>
-						<FieldEditor key={fieldName} fieldName={fieldName} field={field} onFieldUpdate={() => editField(fieldName, field)} onFieldNameUpdate={newFieldName => editFieldName(fieldName, newFieldName, field)} />
+						<FieldEditor key={index} field={field} onFieldUpdate={() => editField(field, index)} />
 					</Col>
 				)).valueSeq()}
 			</Row>
-			<Button onClick={addField}>Add Field</Button>
-			<Button onClick={clearFields}>Clear Fields</Button>
-		</div>
+			<Button onClick={saveForm} variant="primary">Save Form</Button>
+			<Button onClick={addField} variant="secondary">Add Field</Button>
+			<Button onClick={clearFields} variant="secondary">Clear Fields</Button>
+		</>
 	);
 }

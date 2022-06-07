@@ -6,8 +6,8 @@ import { ChangeEvent } from "react";
 export class TextField extends AbstractField {
 	type = FieldType.TEXT_FIELD
 
-	constructor(field: Field, name?: string) {
-		super(field, name);
+	constructor(field: Field) {
+		super(field);
 	}
 
 	getDummyData() {

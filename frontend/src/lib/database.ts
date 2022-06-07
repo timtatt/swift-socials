@@ -22,7 +22,7 @@ export class SwiftSocialsDB extends Dexie {
 				style: ".Post {\n\n}",
 				layout: "<div class=\"Post\">New Post</div>",
 				name: "New Template",
-				form: new Map()
+				form: []
 			};
 		}
 
