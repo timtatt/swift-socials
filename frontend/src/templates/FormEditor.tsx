@@ -1,6 +1,5 @@
 import { Field, FieldType } from './../lib/templates/fields';
 import { Button, Row, Col, Alert } from 'react-bootstrap';
-import { getField } from './../lib/templates/fields';
 import { useState } from 'react';
 import { faker } from '@faker-js/faker';
 import Immutable from 'immutable';
@@ -73,6 +72,9 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 
 	const saveForm = () => {
 		if (verifyNames()) {
+			setAlert({
+				show: false
+			});
 			onFieldUpdate(iFields);
 		}
 	}
@@ -87,8 +89,8 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 			{alert.show ? <Alert variant="danger">{alert.message}</Alert> : ""}
 			<Row md={5} className="g-4">
 				{iFields.map((field, index) => (
-					<Col>
-						<FieldEditor key={index} field={field} onFieldUpdate={() => editField(field, index)} />
+					<Col key={index}>
+						<FieldEditor field={field} onFieldUpdate={() => editField(field, index)} />
 					</Col>
 				)).valueSeq()}
 			</Row>

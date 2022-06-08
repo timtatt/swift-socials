@@ -8,6 +8,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TemplateEditor from './templates/TemplateEditor';
+import { TemplateList } from './templates/TemplateList';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +18,8 @@ root.render(
 		<BrowserRouter>
     	<Routes>
 				<Route path="/" element={<App />}></Route>
-				<Route path="templates" element={<TemplateEditor />} />
+				<Route path="/templates/" element={<TemplateList />} />
+				<Route path="/templates/:templateId" element={<TemplateEditor />} />
 			</Routes>
 		</BrowserRouter>
   </React.StrictMode>

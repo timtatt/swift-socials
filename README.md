@@ -6,6 +6,11 @@
 - Template forms: basic text field, dropdown, numbers
 - Export posts
 
+**TODO**
+- Adding routing for individual templates
+- Display post for template
+- Display form for template
+
 ## Phase 2 - Advanced Offline Application
 **Features**
 - Inline SCSS compatibility

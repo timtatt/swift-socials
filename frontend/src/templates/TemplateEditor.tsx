@@ -7,30 +7,55 @@ import * as monaco from 'monaco-editor';
 import TemplatePreview from './TemplatePreview';
 import FormEditor from './FormEditor';
 
-import { Container, Row, Col, Button, Form, Card, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert } from 'react-bootstrap';
 import Mustache from 'mustache';
 import { getDummyData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
+import { useParams } from 'react-router-dom'
 
+interface AlertState {
+	message?: string,
+	show: boolean
+}
 
-export default function App() {
+export default function TemplateEditor() {
 	const cssEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
 	const htmlEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
 
+	const params = useParams();
+
+	const [alert, setAlert] = useState<AlertState>({
+		show: false,
+		message: "oops"
+	});
 	const [postHtml, setPostHtml] = useState("");
 	const [postStyle, setPostStyle] = useState("");
 	const [dummyData, setDummyData] = useState<any>({});
 	const [template, setTemplate] = useState<Template | null>(null);
 
 	useEffect(() => {
-		db.getTemplate().then(template => {
+		const templateId = Number(params.templateId)
+		if (isNaN(templateId)) {
+			setAlert({
+				show: true,
+				message: 'Template id is not valid'
+			});
+			return;
+		}
+
+		db.getTemplate(templateId).then(template => {
 			setTemplate(template);
 			setDummyData(getDummyData(template));
 			setPostHtml(template.layout);
 			setPostStyle(template.style);
+		}).catch((err: Error) => {
+			setAlert({
+				show: true,
+				message: err.message
+			});
 		});
-	}, []);
+	}, [params]);
 
 	const saveTemplateToDb = () => {
 		if (template) {
@@ -70,7 +95,7 @@ export default function App() {
 	const fieldsUpdated = (fields: Immutable.List<Field>) => {
 		if (template) {
 			template.form = [];
-			
+
 			for (const field of fields) {
 				template.form.push(field);
 			}
@@ -81,7 +106,7 @@ export default function App() {
 	}
 
 	return template ? (
-		<div className="App">
+		<>
 			<Container fluid>
 				<Row className="g-0">
 					<Col>
@@ -138,9 +163,11 @@ export default function App() {
 					</Col>
 				</Row>
 			</Container>
-		</div>
+		</>
 	) : (
-		<></>
+		<>
+			{alert.show ? <Alert variant="danger">{alert.message}</Alert> : ""}
+		</>
 	);
 
 }
