@@ -7,12 +7,12 @@ import * as monaco from 'monaco-editor';
 import TemplatePreview from './TemplatePreview';
 import FormEditor from './FormEditor';
 
-import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert, Breadcrumb, Navbar } from 'react-bootstrap';
 import Mustache from 'mustache';
 import { getDummyData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Layout } from './../common/Layout';
 
 interface AlertState {
@@ -25,6 +25,7 @@ export default function TemplateEditor() {
 	const htmlEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
 
 	const params = useParams();
+	const navigate = useNavigate();
 
 	const [alert, setAlert] = useState<AlertState>({
 		show: false,
@@ -36,33 +37,50 @@ export default function TemplateEditor() {
 	const [template, setTemplate] = useState<Template | null>(null);
 
 	useEffect(() => {
-		const templateId = Number(params.templateId)
-		if (isNaN(templateId)) {
-			setAlert({
-				show: true,
-				message: 'Template id is not valid'
-			});
-			return;
-		}
-
-		db.getTemplate(templateId).then(template => {
+		if (params.templateId == 'new') {
+			const template = {
+				style: ".Post {\n\n}",
+				layout: "<div class=\"Post\">New Post</div>",
+				name: "New Template",
+				form: []
+			};
 			setTemplate(template);
 			setDummyData(getDummyData(template));
 			setPostHtml(template.layout);
 			setPostStyle(template.style);
-		}).catch((err: Error) => {
-			setAlert({
-				show: true,
-				message: err.message
+		} else {
+			const templateId = Number(params.templateId);
+			if (isNaN(templateId)) {
+				setAlert({
+					show: true,
+					message: 'Template id is not valid'
+				});
+				return;
+			}
+
+			db.getTemplate(templateId).then(template => {
+				setTemplate(template);
+				setDummyData(getDummyData(template));
+				setPostHtml(template.layout);
+				setPostStyle(template.style);
+			}).catch((err: Error) => {
+				setAlert({
+					show: true,
+					message: err.message
+				});
 			});
-		});
+		}
 	}, [params]);
 
-	const saveTemplateToDb = () => {
+	const saveTemplateToDb = async () => {
 		if (template) {
 			template.layout = postHtml;
 			template.style = postStyle;
-			saveTemplate(template);
+			await saveTemplate(template);
+
+			if (params.templateId == 'new') {
+				navigate(`/templates/${template.id}`);
+			}
 		}
 	}
 
@@ -108,8 +126,16 @@ export default function TemplateEditor() {
 
 	return template ? (
 		<Layout>
+			<Navbar>
+				<Container>
+					<Breadcrumb>
+						<Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+						<Breadcrumb.Item linkAs={Link} linkProps={{to: "/templates"}}>Templates</Breadcrumb.Item>
+					</Breadcrumb>
+				</Container>
+			</Navbar>
 			<Container fluid>
-				<Row className="g-0">
+				<Row className="g-0 my-2">
 					<Col>
 						<TemplatePreview layout={postHtml} style={postStyle} />
 						<Row>

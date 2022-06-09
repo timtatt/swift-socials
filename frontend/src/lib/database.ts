@@ -19,20 +19,6 @@ export class SwiftSocialsDB extends Dexie {
 		}
 
 		return template;
-		// var template = templates[0];
-
-		// console.log(template);
-
-		// if (!template) {
-		// 	template = {
-		// 		style: ".Post {\n\n}",
-		// 		layout: "<div class=\"Post\">New Post</div>",
-		// 		name: "New Template",
-		// 		form: []
-		// 	};
-		// }
-
-		// return template;
 	}
 }
 
