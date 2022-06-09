@@ -2,6 +2,7 @@ import { db } from './../lib/database';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Template } from '../lib/templates/template';
+import { Layout } from '../common/Layout';
 
 type TemplateWithId = {
 	id: number,
@@ -26,9 +27,9 @@ export const TemplateList = () => {
 	}, []);
 
 	return (
-		<>
+		<Layout>
 			<h1>Template List</h1>
 			{templates?.map(({id, template}) => <Link to={`/templates/${id}`}>{template.name}</Link>)}
-		</>
+		</Layout>
 	)
 };

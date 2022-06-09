@@ -13,6 +13,7 @@ import { getDummyData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
 import { useParams } from 'react-router-dom'
+import { Layout } from './../common/Layout';
 
 interface AlertState {
 	message?: string,
@@ -106,7 +107,7 @@ export default function TemplateEditor() {
 	}
 
 	return template ? (
-		<>
+		<Layout>
 			<Container fluid>
 				<Row className="g-0">
 					<Col>
@@ -163,11 +164,11 @@ export default function TemplateEditor() {
 					</Col>
 				</Row>
 			</Container>
-		</>
+		</Layout>
 	) : (
-		<>
+		<Layout>
 			{alert.show ? <Alert variant="danger">{alert.message}</Alert> : ""}
-		</>
+		</Layout>
 	);
 
 }

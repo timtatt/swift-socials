@@ -3,10 +3,9 @@ import './index.scss';
 import "reflect-metadata"
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import TemplateEditor from './templates/TemplateEditor';
 import { TemplateList } from './templates/TemplateList';
 
@@ -17,7 +16,7 @@ root.render(
 	<React.StrictMode>
 		<BrowserRouter>
     	<Routes>
-				<Route path="/" element={<App />}></Route>
+				<Route path="/" element={<Navigate to="/templates" />}></Route>
 				<Route path="/templates/" element={<TemplateList />} />
 				<Route path="/templates/:templateId" element={<TemplateEditor />} />
 			</Routes>

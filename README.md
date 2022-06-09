@@ -7,7 +7,6 @@
 - Export posts
 
 **TODO**
-- Adding routing for individual templates
 - Display post for template
 - Display form for template
 
