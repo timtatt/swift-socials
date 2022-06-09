@@ -3,17 +3,23 @@ import { Form, Button } from 'react-bootstrap';
 import { Layout } from '../common/Layout';
 import { Template } from '../lib/templates/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
+import { TemplateForm } from './TemplateForm';
 import { db } from './../lib/database';
 import { toPng } from 'html-to-image';
 
 export const PostEditor = () => {
 
 	const [template, setTemplate] = useState<Template>();
+	const [layout, setLayout] = useState<string>("");
+	const [formData, setFormData] = useState<any>({});
+
 	const previewRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-
-	});
+		if (template && template.layout) {
+			setLayout(template.layout);
+		}
+	}, [template]);
 
 	const loadTemplate = (event: ChangeEvent<HTMLSelectElement>) => {
 		const templateId = Number(event.target.value);
@@ -49,9 +55,10 @@ export const PostEditor = () => {
 
 			{template ? (
 				<>
-					<TemplatePreview ref={previewRef} size={template.size} layout={template.layout} style={template.style} />
+					<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
 					{template.name}
 					<Button onClick={exportPost}>Export Post</Button>
+					<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
 				</>
 			) : ""}
 

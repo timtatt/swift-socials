@@ -9,7 +9,7 @@ import FormEditor from './FormEditor';
 
 import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert, Breadcrumb, Navbar } from 'react-bootstrap';
 import Mustache from 'mustache';
-import { getDummyData, saveTemplate } from './../lib/templates/template';
+import { getDefaultFormData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
 import { useParams, useNavigate, Link } from 'react-router-dom'
@@ -49,8 +49,9 @@ export default function TemplateEditor() {
 					height: 1200,
 				}
 			};
+			// TODO convert to useEffect for template
 			setTemplate(template);
-			setDummyData(getDummyData(template));
+			setDummyData(getDefaultFormData(template));
 			setPostHtml(template.layout);
 			setPostStyle(template.style);
 		} else {
@@ -65,7 +66,7 @@ export default function TemplateEditor() {
 
 			db.getTemplate(templateId).then(template => {
 				setTemplate(template);
-				setDummyData(getDummyData(template));
+				setDummyData(getDefaultFormData(template));
 				setPostHtml(template.layout);
 				setPostStyle(template.style);
 			}).catch((err: Error) => {
@@ -99,12 +100,7 @@ export default function TemplateEditor() {
 
 	const updateHtml = (value: string | undefined) => {
 		if (value && template) {
-			try {
-				const renderedHtml = Mustache.render(value, dummyData);
-				setPostHtml(renderedHtml);
-			} catch (err) {
-				console.debug('Unable to render mustache', err);
-			}
+			setPostHtml(value);
 		}
 	}
 
@@ -124,7 +120,7 @@ export default function TemplateEditor() {
 				template.form.push(field);
 			}
 
-			setDummyData(getDummyData(template));
+			setDummyData(getDefaultFormData(template));
 			saveTemplateToDb();
 		}
 	}
@@ -142,7 +138,7 @@ export default function TemplateEditor() {
 			<Container fluid>
 				<Row className="g-0 my-2">
 					<Col>
-						<TemplatePreview ref={templatePreviewRef} size={template.size} layout={postHtml} style={postStyle} />
+						<TemplatePreview ref={templatePreviewRef} layoutProperties={dummyData} size={template.size} layout={postHtml} style={postStyle} />
 						<Row>
 							<Col>
 								<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />

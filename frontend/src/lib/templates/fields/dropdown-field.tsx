@@ -9,10 +9,10 @@ export class DropdownField extends AbstractField {
 		super(field);
 	}
 
-	getDummyData() {
+	getDefaultValue() {
 		return this.field.defaultValue;
 	}
-
+	
 	renderField() {
 		return (
 			<div>

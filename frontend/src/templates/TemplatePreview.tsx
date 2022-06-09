@@ -1,12 +1,13 @@
 import { template } from '@babel/core';
 import Parser from 'html-react-parser';
+import Mustache from 'mustache';
 import { ForwardedRef, forwardRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { serialize } from 'v8';
 import { TemplateSize } from '../lib/templates/template';
 
 interface TemplatePreviewProps {
 	layout: string,
+	layoutProperties: any
 	style: string,
 	size: TemplateSize
 }
@@ -14,6 +15,7 @@ interface TemplatePreviewProps {
 export const TemplatePreview = forwardRef((props: TemplatePreviewProps, templatePreviewRef: ForwardedRef<HTMLDivElement>) => {
 
 	const [templateScale, setTemplateScale] = useState<number>(1);
+	const [templateHtml, setTemplateHtml] = useState<string>("");
 	const [minScale, setMinScale] = useState<number>(1);
 
 	const maxScale = 5;
@@ -23,7 +25,12 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 
 	useEffect(() => {
 		calculateTemplateScale();
-	}, [templatePreviewRef]);
+	}, []);
+
+	useEffect(() => {
+		setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
+	}, [props.layoutProperties, props.layout]);
+
 
 	const calculateTemplateScale = () => {
 		const innerRef = templatePreviewRef as MutableRefObject<HTMLDivElement>;
@@ -58,7 +65,7 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 						}}>
 						{/* TODO: scaling export to 1200x1200 */}
 						{/* TODO: add sanitising for XSS */}
-						{Parser(props.layout)}
+						{Parser(templateHtml)}
 						<style>{Parser(props.style)}</style>
 						</div>
 					</div>

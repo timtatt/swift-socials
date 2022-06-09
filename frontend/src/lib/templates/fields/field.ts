@@ -13,7 +13,7 @@ export interface FieldOption {
 export interface Field {
 	name: string;
 	type: FieldType;
-	defaultValue: string; // allows support for non-string values
+	defaultValue: any;
 	options?: FieldOption[];
 	children?: Map<string, Field>;
 }
@@ -26,8 +26,8 @@ export abstract class AbstractField {
 		this.field = field;
 	}
 
-	abstract getDummyData(): any;
-	abstract renderField(): JSX.Element;
-	abstract renderFieldEditor(setField: (field: Field) => void, defaultValueRef: RefObject<HTMLSelectElement>): JSX.Element;
+	abstract getDefaultValue(): any
+	abstract renderField(onFieldUpdate: (value: any) => void): JSX.Element;
+	abstract renderFieldEditor(onFieldUpdate: (field: Field) => void, defaultValueRef: RefObject<HTMLSelectElement>): JSX.Element;
 }
 

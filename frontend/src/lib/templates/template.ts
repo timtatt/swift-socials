@@ -10,7 +10,7 @@ export interface Template {
 	id?: number
 	style: string
 	layout: string,
-	size: TemplateSize,
+	size: TemplateSize
 	name: string
 	form: Field[]
 }
@@ -22,10 +22,10 @@ export const saveTemplate = async (template: Template) => {
 		});
 }
 
-export const getDummyData = (template: Template): any => {
-	const dummyData: any = {};
+export const getDefaultFormData = (template: Template): any => {
+	const formData: any = {};
 	for (const field of template.form) {
-		dummyData[field.name] = getField(field).getDummyData();
+		formData[field.name] = getField(field).getDefaultValue();
 	}
-	return dummyData;
+	return formData;
 }

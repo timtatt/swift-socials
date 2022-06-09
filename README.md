@@ -9,6 +9,7 @@
 **TODO**
 - Display post for template
 - Display form for template
+- Cmd + S to save
 
 ## Phase 2 - Advanced Offline Application
 **Features**

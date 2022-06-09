@@ -10,23 +10,23 @@ export class TextField extends AbstractField {
 		super(field);
 	}
 
-	getDummyData() {
+	getDefaultValue() {
 		return this.field.defaultValue;
 	}
 
-	renderField() {
+	renderField(onFieldUpdate: (value: any) => void) {
 		return (
 			<div>
-				<Form.Control />
+				<Form.Control defaultValue={this.field.defaultValue} onChange={event => onFieldUpdate(event.target.value)} />
 			</div>
 		);
 	}
 
-	renderFieldEditor(setField: (field: Field) => void) {
+	renderFieldEditor(onFieldUpdate: (field: Field) => void) {
 
 		const updateDefaultValue = (event: ChangeEvent<HTMLInputElement>) => {
 			this.field.defaultValue = event.target.value;
-			setField(this.field);
+			onFieldUpdate(this.field);
 		};
 
 		return (
