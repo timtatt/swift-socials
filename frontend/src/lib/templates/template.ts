@@ -1,10 +1,16 @@
 import { getField, Field } from "./fields";
 import { db } from './../database';
 
+export interface TemplateSize {
+	width: number,
+	height: number
+}
+
 export interface Template {
 	id?: number
 	style: string
-	layout: string
+	layout: string,
+	size: TemplateSize,
 	name: string
 	form: Field[]
 }

@@ -4,7 +4,7 @@ import { Template } from './../lib/templates/template';
 import Editor from "@monaco-editor/react";
 import { Monaco } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
-import TemplatePreview from './TemplatePreview';
+import { TemplatePreview } from './TemplatePreview';
 import FormEditor from './FormEditor';
 
 import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert, Breadcrumb, Navbar } from 'react-bootstrap';
@@ -23,6 +23,7 @@ interface AlertState {
 export default function TemplateEditor() {
 	const cssEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
 	const htmlEditor = useRef<monaco.editor.IStandaloneCodeEditor>();
+	const templatePreviewRef = useRef<HTMLDivElement>(null);
 
 	const params = useParams();
 	const navigate = useNavigate();
@@ -37,12 +38,16 @@ export default function TemplateEditor() {
 	const [template, setTemplate] = useState<Template | null>(null);
 
 	useEffect(() => {
-		if (params.templateId == 'new') {
+		if (params.templateId === 'new') {
 			const template = {
 				style: ".Post {\n\n}",
 				layout: "<div class=\"Post\">New Post</div>",
 				name: "New Template",
-				form: []
+				form: [],
+				size: {
+					width: 1200,
+					height: 1200,
+				}
 			};
 			setTemplate(template);
 			setDummyData(getDummyData(template));
@@ -78,7 +83,7 @@ export default function TemplateEditor() {
 			template.style = postStyle;
 			await saveTemplate(template);
 
-			if (params.templateId == 'new') {
+			if (params.templateId === 'new') {
 				navigate(`/templates/${template.id}`);
 			}
 		}
@@ -137,7 +142,7 @@ export default function TemplateEditor() {
 			<Container fluid>
 				<Row className="g-0 my-2">
 					<Col>
-						<TemplatePreview layout={postHtml} style={postStyle} />
+						<TemplatePreview ref={templatePreviewRef} size={template.size} layout={postHtml} style={postStyle} />
 						<Row>
 							<Col>
 								<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />
