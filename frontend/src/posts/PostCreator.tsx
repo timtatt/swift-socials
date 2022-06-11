@@ -14,7 +14,7 @@ export const PostCreator = () => {
 			{!template ? (
 				<>
 						<Row className="bg-dark py-5 text-center">
-							<h2 className="display-5 fw-bold">Select a Template</h2>
+							<h2 className="display-5 fw-bold">Create a Post</h2>
 							<p className="fs-4">Choose a template from below to get started with your post</p>
 						</Row>
 						{/* TODO: add search for templates */}
@@ -23,7 +23,7 @@ export const PostCreator = () => {
 			) : (
 				<>
 					<Row className="bg-dark py-5 text-center">
-						<h2 className="display-5 fw-bold">Edit your Post</h2>
+						<h2 className="display-5 fw-bold">Create a Post</h2>
 						<p className="fs-4">Use the form to modify your post</p>
 					</Row>
 					<Container>

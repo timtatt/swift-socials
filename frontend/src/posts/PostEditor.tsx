@@ -40,7 +40,6 @@ export const PostEditor = ({ template }: PostEditorProps) => {
 		}
 	}
 
-
 	return (
 		<>
 			<Container fluid>

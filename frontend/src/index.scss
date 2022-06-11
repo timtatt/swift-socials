@@ -1,10 +1,10 @@
 @import 'main';
 
 :root {
-	--toastify-color-light: #{$light-alt};
-	--toastify-color-dark: #{$dark-alt};
-	--toastify-color-info: #{$info-alt};
-	--toastify-color-success: #{$success-alt};
-	--toastify-color-warning: #{$warning-alt};
-	--toastify-color-error: #{$danger-alt};
+	--toastify-color-light: #{$light};
+	--toastify-color-dark: #{$dark};
+	--toastify-color-info: #{$info};
+	--toastify-color-success: #{$success};
+	--toastify-color-warning: #{$warning};
+	--toastify-color-error: #{$danger};
 }

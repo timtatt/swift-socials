@@ -1,8 +1,5 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap-dark-5/scss/dark/functions";
-@import "~bootstrap-dark-5/scss/variables-alt";
+$primary: #D4401F;
 
-@import "~bootstrap-dark-5/dist/css/bootstrap-dark.min.css";
+@import "./assets/scss/_variables";
+@import "~bootstrap/scss/bootstrap";
 @import '~react-toastify/dist/ReactToastify.min.css';

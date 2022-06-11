@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const Header = () => {
 	return (
-		<Navbar bg="primary" expand="lg">
+		<Navbar bg="primary" expand="lg" variant="dark">
 			<Container>
 				<Navbar.Brand href="#home">Swift Socials</Navbar.Brand>
 				<Navbar.Toggle aria-controls="main-nav" />
