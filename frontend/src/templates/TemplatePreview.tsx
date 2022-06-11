@@ -1,9 +1,9 @@
-import { template } from '@babel/core';
 import Parser from 'html-react-parser';
 import Mustache from 'mustache';
 import { ForwardedRef, forwardRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { TemplateSize } from '../lib/templates/template';
+import { usePinch } from '@use-gesture/react';
 
 interface TemplatePreviewProps {
 	layout: string,
@@ -22,6 +22,17 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 
 	const templateWrapperRef = useRef<HTMLDivElement>(null);
 
+	usePinch(event => {
+		setTemplateScale(event.offset[0])
+	}, {
+		target: templateWrapperRef,
+		scaleBounds: () => {
+			return {
+				min: minScale,
+				max: 5
+			}
+		}
+	});
 
 	useEffect(() => {
 		calculateTemplateScale();
@@ -63,10 +74,10 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 							width: props.size.width,
 							height: props.size.height
 						}}>
-						{/* TODO: scaling export to 1200x1200 */}
-						{/* TODO: add sanitising for XSS */}
-						{Parser(templateHtml)}
-						<style>{Parser(props.style)}</style>
+							{/* TODO: scaling export to 1200x1200 */}
+							{/* TODO: add sanitising for XSS */}
+							{Parser(templateHtml)}
+							<style>{Parser(props.style)}</style>
 						</div>
 					</div>
 
