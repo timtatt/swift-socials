@@ -13,28 +13,25 @@ type TemplateSelectorProps = {
 export const TemplateSelector = ({onSelect = () => {}}: TemplateSelectorProps) => {
 
 	const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
-	const [templates, setTemplates] = useState<Map<number, Template>>(new Map());
+	const [templates, setTemplates] = useState<Template[]>([]);
 
 	const selectTemplate = (template: Template) => {
 		setSelectedTemplate(selectedTemplate == template ? null : template)
 	}
 
 	useEffect(() => {
-		const templateMap = new Map<number, Template>();
-		db.templates.toCollection().each((template, cursor) => {
-			templateMap.set(cursor.primaryKey, template);
-		}).then(() => {
-			setTemplates(templateMap);
-		});
+		db.templates.toArray().then(storedTemplates => {
+			setTemplates(storedTemplates);
+		});		
 	}, []);
 	
 	return (
 		<>
 			<Container fluid className="p-4">
 				<Row md={6} className="g-4 mt-2">
-					{Array.from(templates.entries()).map(([templateId, template]) => {
+					{templates.map((template, index) => {
 						return (
-							<Col key={templateId}>
+							<Col key={index}>
 								<Card className={`thickboy ${selectedTemplate == template ? 'selected' : ''}`} border={selectedTemplate == template ? 'primary' : ''} onClick={() => selectTemplate(template)}>
 									<Card.Img src={placeholder} variant="top" />
 									<Card.Body>
@@ -44,7 +41,6 @@ export const TemplateSelector = ({onSelect = () => {}}: TemplateSelectorProps) =
 							</Col>
 						)
 					})}
-					
 				</Row>
 				{selectedTemplate != null ? (
 					<Row className="mt-4">

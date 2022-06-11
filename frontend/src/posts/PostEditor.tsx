@@ -1,10 +1,8 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Layout } from '../common/Layout';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import { getDefaultFormData, Template } from '../lib/templates/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
-import { db } from './../lib/database';
 import { toPng } from 'html-to-image';
 
 type PostEditorProps = {

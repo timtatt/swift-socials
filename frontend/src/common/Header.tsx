@@ -10,8 +10,8 @@ export const Header = () => {
 				<Navbar.Toggle aria-controls="main-nav" />
 				<Navbar.Collapse id="main-nav">
 					<Nav className="me-auto">
-						<Nav.Link as={Link} to="/templates">Templates</Nav.Link>
-						<Nav.Link as={Link} to="/posts/new">Posts</Nav.Link>
+						<Nav.Link as={Link} to="/templates">My Templates</Nav.Link>
+						<Nav.Link as={Link} to="/posts/new">Create Post</Nav.Link>
 					</Nav>
 					<Navbar.Text>
 						Alpha v{packageInfo.version}
