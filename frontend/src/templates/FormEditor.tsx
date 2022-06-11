@@ -39,6 +39,7 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 
 		setFields(iFields.push({
 			name: fieldName,
+			label: 'New Field',
 			type: FieldType.TEXT_FIELD,
 			defaultValue: faker.name.findName()
 		}));

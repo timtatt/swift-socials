@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Layout } from '../common/Layout';
-import { Template } from '../lib/templates/template';
+import { getDefaultFormData, Template } from '../lib/templates/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
 import { db } from './../lib/database';
@@ -55,10 +55,17 @@ export const PostEditor = () => {
 
 			{template ? (
 				<>
-					<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
-					{template.name}
-					<Button onClick={exportPost}>Export Post</Button>
-					<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
+					<Container fluid>
+						<Row>
+							<Col md={4}>
+								<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
+								<Button onClick={exportPost}>Export Post</Button>
+							</Col>
+							<Col>
+								<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
+							</Col>
+						</Row>
+					</Container>
 				</>
 			) : ""}
 

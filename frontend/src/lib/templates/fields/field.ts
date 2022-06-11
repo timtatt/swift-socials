@@ -12,6 +12,7 @@ export interface FieldOption {
 
 export interface Field {
 	name: string;
+	label: string;
 	type: FieldType;
 	defaultValue: any;
 	options?: FieldOption[];

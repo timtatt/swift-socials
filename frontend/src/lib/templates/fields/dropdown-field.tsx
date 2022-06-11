@@ -13,10 +13,16 @@ export class DropdownField extends AbstractField {
 		return this.field.defaultValue;
 	}
 	
-	renderField() {
+	renderField(onFieldUpdate: (value: any) => void) {
 		return (
 			<div>
-				<Form.Control />
+				<Form.Group>
+					<Form.Label>{this.field.label}</Form.Label>
+					<Form.Select defaultValue={this.field.defaultValue} onChange={event => onFieldUpdate(event.target.value)}>
+						<option value="">-- Select --</option>
+						{this.field.options?.map(fieldOption => <option key={fieldOption.name} value={fieldOption.name}>{fieldOption.title}</option>)}
+					</Form.Select>
+				</Form.Group>
 			</div>
 		);
 	}
@@ -56,6 +62,7 @@ export class DropdownField extends AbstractField {
 				<Form.Group className="mb-3">
 					<Form.Label>Default Value</Form.Label>
 					<Form.Select ref={defaultValueRef} defaultValue={this.field.defaultValue} onChange={updateDefaultValue}>
+						<option value="">No Default Value</option>
 						{this.field.options?.map(option => <option key={option.name} value={option.name}>{option.title}</option>)}
 					</Form.Select>
 				</Form.Group>

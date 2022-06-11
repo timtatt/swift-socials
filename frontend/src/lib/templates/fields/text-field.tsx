@@ -16,9 +16,12 @@ export class TextField extends AbstractField {
 
 	renderField(onFieldUpdate: (value: any) => void) {
 		return (
-			<div>
-				<Form.Control defaultValue={this.field.defaultValue} onChange={event => onFieldUpdate(event.target.value)} />
-			</div>
+			<>
+				<Form.Group>
+					<Form.Label>{this.field.label}</Form.Label>
+					<Form.Control defaultValue={this.field.defaultValue} onChange={event => onFieldUpdate(event.target.value)} />
+				</Form.Group>
+			</>
 		);
 	}
 

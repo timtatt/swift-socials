@@ -42,7 +42,6 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 		setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
 	}, [props.layoutProperties, props.layout]);
 
-
 	const calculateTemplateScale = () => {
 		const innerRef = templatePreviewRef as MutableRefObject<HTMLDivElement>;
 		if (innerRef && templateWrapperRef.current) {
@@ -59,6 +58,7 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 				width: '400px',
 				height: '400px',
 				overflow: 'scroll',
+				userSelect: 'none'
 			}}>
 				<div className="template-preview-inner" style={{
 					width: props.size.width * templateScale,

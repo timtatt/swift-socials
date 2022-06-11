@@ -3,13 +3,16 @@
 ## Phase 1 - Offline Application
 **Features**
 - Create/delete/modify templates
-- Template forms: basic text field, dropdown, numbers
+- Template forms: basic text field, dropdown, numbers, image upload
 - Export posts
 
 **TODO**
-- Display post for template
-- Display form for template
+- Template selector
+- Number field
 - Cmd + S to save
+- Delete template
+- Image upload
+- Tidy UI
 
 ## Phase 2 - Advanced Offline Application
 **Features**

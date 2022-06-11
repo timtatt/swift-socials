@@ -17,7 +17,12 @@ export const FieldEditor = ({field, onFieldUpdate}: FieldProps) => {
 					<Form.Label>Field Name</Form.Label>
 					<InputGroup>
 						<Form.Control defaultValue={field.name} onChange={event => {field.name = event.target.value; onFieldUpdate(field); }} />
-						{/* TODO: add alert when setting field name to existing field name */}
+					</InputGroup>
+				</Form.Group>
+				<Form.Group className="mb-3">
+					<Form.Label>Field Label</Form.Label>
+					<InputGroup>
+						<Form.Control defaultValue={field.label} onChange={event => { field.label = event.target.value; onFieldUpdate(field); }} />
 					</InputGroup>
 				</Form.Group>
 				<Form.Group className="mb-3">
