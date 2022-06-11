@@ -1,6 +1,6 @@
 import Parser from 'html-react-parser';
 import Mustache from 'mustache';
-import { ForwardedRef, forwardRef, MutableRefObject, useEffect, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { TemplateSize } from '../lib/templates/template';
 import { usePinch } from '@use-gesture/react';
@@ -32,24 +32,24 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 				max: 5
 			}
 		}
-	});
+	});	
 
-	useEffect(() => {
-		calculateTemplateScale();
-	}, []);
-
-	useEffect(() => {
-		setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
-	}, [props.layoutProperties, props.layout]);
-
-	const calculateTemplateScale = () => {
+	const calculateTemplateScale = useCallback(() => {
 		const innerRef = templatePreviewRef as MutableRefObject<HTMLDivElement>;
 		if (innerRef && templateWrapperRef.current) {
 			const scale = templateWrapperRef.current.clientWidth / innerRef.current.clientWidth;
 			setMinScale(scale);
 			setTemplateScale(scale);
 		}
-	};
+	}, [templatePreviewRef, templateWrapperRef]);
+
+	useEffect(() => {
+		setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
+	}, [props.layoutProperties, props.layout]);
+
+	useEffect(() => {
+		calculateTemplateScale();
+	}, [calculateTemplateScale]);
 
 	return (
 		<>

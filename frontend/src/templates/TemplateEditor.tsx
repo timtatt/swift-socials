@@ -8,7 +8,6 @@ import { TemplatePreview } from './TemplatePreview';
 import FormEditor from './FormEditor';
 
 import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert, Breadcrumb, Navbar } from 'react-bootstrap';
-import Mustache from 'mustache';
 import { getDefaultFormData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';

@@ -1,14 +1,9 @@
 import { AbstractField, Field, FieldType } from "./field";
-import { faker } from '@faker-js/faker';
 import { Form } from 'react-bootstrap';
 import { ChangeEvent } from "react";
 
 export class TextField extends AbstractField {
 	type = FieldType.TEXT_FIELD
-
-	constructor(field: Field) {
-		super(field);
-	}
 
 	getDefaultValue() {
 		return this.field.defaultValue;

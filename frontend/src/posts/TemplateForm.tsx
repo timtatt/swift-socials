@@ -18,7 +18,7 @@ export const TemplateForm = ({template, onFormUpdate = () => {}}: TemplateFormPr
 		const newFormData: Immutable.Map<string, any> = Immutable.Map(getDefaultFormData(template));
 		setFormData(newFormData);
 		onFormUpdate(newFormData.toJS());
-	}, []);
+	}, [template, onFormUpdate]);
 
 	const setFieldData = (name: string, value: any) => {
 		const newFormData = formData.set(name, value);

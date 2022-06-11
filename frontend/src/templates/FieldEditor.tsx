@@ -1,5 +1,5 @@
 import { Field, FieldType, getField } from '../lib/templates/fields';
-import { Form, Card, Button, InputGroup } from 'react-bootstrap';
+import { Form, Card, InputGroup } from 'react-bootstrap';
 import { useRef } from 'react';
 
 interface FieldProps {

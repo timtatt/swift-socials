@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Layout } from '../common/Layout';
-import { getDefaultFormData, Template } from '../lib/templates/template';
+import { Template } from '../lib/templates/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
 import { db } from './../lib/database';

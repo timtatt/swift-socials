@@ -5,10 +5,6 @@ import { ChangeEvent, RefObject } from "react";
 export class DropdownField extends AbstractField {
 	type = FieldType.DROPDOWN
 
-	constructor(field: Field) {
-		super(field);
-	}
-
 	getDefaultValue() {
 		return this.field.defaultValue;
 	}
