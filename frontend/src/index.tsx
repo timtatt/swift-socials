@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import TemplateEditor from './templates/TemplateEditor';
 import { TemplateList } from './templates/TemplateList';
-import { PostEditor } from './posts/PostEditor';
+import { PostCreator } from './posts/PostCreator';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,7 +20,7 @@ root.render(
 				<Route path="/" element={<Navigate to="/templates" />}></Route>
 				<Route path="/templates/" element={<TemplateList />} />
 				<Route path="/templates/:templateId" element={<TemplateEditor />} />
-				<Route path="/posts/new" element={<PostEditor />} />
+				<Route path="/posts/new" element={<PostCreator />} />
 			</Routes>
 		</BrowserRouter>
   </React.StrictMode>

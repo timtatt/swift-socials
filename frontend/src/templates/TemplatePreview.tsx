@@ -61,6 +61,7 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 
 	return (
 		<>
+		{/* TODO: use Ratio element */}
 			<div className="template-preview-wrapper" ref={templateWrapperRef} style={{
 				background: 'red',
 				width: '100%',

@@ -1,0 +1,14 @@
+@import "./../main";
+
+.card {
+	user-select: none;
+	cursor: pointer;
+
+	&.thickboy {
+		border-width: 2px;
+	}
+
+	&.selected {
+		background-color: $gray-800-alt;
+	}
+}

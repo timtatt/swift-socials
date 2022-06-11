@@ -7,9 +7,12 @@ import { TemplateForm } from './TemplateForm';
 import { db } from './../lib/database';
 import { toPng } from 'html-to-image';
 
-export const PostEditor = () => {
+type PostEditorProps = {
+	template: Template
+}
 
-	const [template, setTemplate] = useState<Template>();
+export const PostEditor = ({ template }: PostEditorProps) => {
+
 	const [layout, setLayout] = useState<string>("");
 	const [formData, setFormData] = useState<any>({});
 
@@ -21,13 +24,6 @@ export const PostEditor = () => {
 			setFormData(getDefaultFormData(template));
 		}
 	}, [template]);
-
-	const loadTemplate = (event: ChangeEvent<HTMLSelectElement>) => {
-		const templateId = Number(event.target.value);
-		if (!isNaN(templateId)) {
-			db.templates.get(templateId).then(setTemplate).catch(console.error);
-		}
-	}
 
 	const exportPost = () => {
 		if (previewRef.current) {
@@ -48,28 +44,18 @@ export const PostEditor = () => {
 
 
 	return (
-		<Layout>
-			<Form.Select defaultValue={template?.id} onChange={loadTemplate}>
-				<option value="">No Template</option>
-				<option value={13}>Test Template</option>
-			</Form.Select>
-
-			{template ? (
-				<>
-					<Container fluid>
-						<Row>
-							<Col md={4}>
-								<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
-								<Button onClick={exportPost}>Export Post</Button>
-							</Col>
-							<Col>
-								<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
-							</Col>
-						</Row>
-					</Container>
-				</>
-			) : ""}
-
-		</Layout>
+		<>
+			<Container fluid>
+				<Row>
+					<Col md={4}>
+						<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
+						<Button onClick={exportPost}>Export Post</Button>
+					</Col>
+					<Col>
+						<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
+					</Col>
+				</Row>
+			</Container>
+		</>
 	);
 };
