@@ -13,6 +13,7 @@ import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Layout } from './../common/Layout';
+import { ToastContainer, toast } from 'react-toastify';
 
 interface AlertState {
 	message?: string,
@@ -31,8 +32,7 @@ export default function TemplateEditor() {
 		show: false,
 		message: "oops"
 	});
-	const [postHtml, setPostHtml] = useState("");
-	const [postStyle, setPostStyle] = useState("");
+
 	const [dummyData, setDummyData] = useState<any>({});
 	const [template, setTemplate] = useState<Template | null>(null);
 
@@ -51,8 +51,6 @@ export default function TemplateEditor() {
 			// TODO convert to useEffect for template
 			setTemplate(template);
 			setDummyData(getDefaultFormData(template));
-			setPostHtml(template.layout);
-			setPostStyle(template.style);
 		} else {
 			const templateId = Number(params.templateId);
 			if (isNaN(templateId)) {
@@ -66,8 +64,6 @@ export default function TemplateEditor() {
 			db.getTemplate(templateId).then(template => {
 				setTemplate(template);
 				setDummyData(getDefaultFormData(template));
-				setPostHtml(template.layout);
-				setPostStyle(template.style);
 			}).catch((err: Error) => {
 				setAlert({
 					show: true,
@@ -79,13 +75,16 @@ export default function TemplateEditor() {
 
 	const saveTemplateToDb = async () => {
 		if (template) {
-			template.layout = postHtml;
-			template.style = postStyle;
+			setTemplate(Object.assign({}, template));
 			await saveTemplate(template);
 
 			if (params.templateId === 'new') {
 				navigate(`/templates/${template.id}`);
 			}
+
+			toast.success(`Saved: ${template.name}`, {
+				theme: "colored"
+			});
 		}
 	}
 
@@ -93,13 +92,15 @@ export default function TemplateEditor() {
 	const updateStyles = (value: string | undefined) => {
 		if (value && template) {
 			console.log('updated styles');
-			setPostStyle(value);
+			template.style = value;
+			setTemplate(Object.assign({}, template));
 		}
 	}
 
 	const updateHtml = (value: string | undefined) => {
 		if (value && template) {
-			setPostHtml(value);
+			template.layout = value;
+			setTemplate(Object.assign({}, template));
 		}
 	}
 
@@ -131,13 +132,14 @@ export default function TemplateEditor() {
 					<Breadcrumb>
 						<Breadcrumb.Item href="#">Home</Breadcrumb.Item>
 						<Breadcrumb.Item linkAs={Link} linkProps={{to: "/templates"}}>Templates</Breadcrumb.Item>
+						<Breadcrumb.Item href="#">{template.name}</Breadcrumb.Item>
 					</Breadcrumb>
 				</Container>
 			</Navbar>
 			<Container fluid>
 				<Row className="g-0 my-2">
 					<Col>
-						<TemplatePreview ref={templatePreviewRef} layoutProperties={dummyData} size={template.size} layout={postHtml} style={postStyle} />
+						<TemplatePreview ref={templatePreviewRef} layoutProperties={dummyData} size={template.size} layout={template.layout} style={template.style} />
 						<Row>
 							<Col>
 								<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />
@@ -165,7 +167,7 @@ export default function TemplateEditor() {
 									defaultLanguage="html"
 									theme="vs-dark"
 									onMount={editor => htmlEditor.current = editor}
-									defaultValue={postHtml}
+									defaultValue={template.layout}
 									onChange={updateHtml}
 								/>
 							</Tab>
@@ -176,7 +178,7 @@ export default function TemplateEditor() {
 									defaultLanguage="css"
 									theme="vs-dark"
 									onMount={editor => cssEditor.current = editor}
-									defaultValue={postStyle}
+									defaultValue={template.style}
 									beforeMount={updateCssLint}
 									onChange={updateStyles}
 								/>
@@ -190,6 +192,7 @@ export default function TemplateEditor() {
 					</Col>
 				</Row>
 			</Container>
+			<ToastContainer position="bottom-right" newestOnTop={true} autoClose={3000} />
 		</Layout>
 	) : (
 		<Layout>

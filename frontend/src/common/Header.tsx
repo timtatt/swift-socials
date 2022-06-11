@@ -1,5 +1,6 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import packageInfo from './../../package.json';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
 	return (
@@ -9,8 +10,8 @@ export const Header = () => {
 				<Navbar.Toggle aria-controls="main-nav" />
 				<Navbar.Collapse id="main-nav">
 					<Nav className="me-auto">
-						<Nav.Link href="/templates">Templates</Nav.Link>
-						<Nav.Link href="/posts/new">Posts</Nav.Link>
+						<Nav.Link as={Link} to="/templates">Templates</Nav.Link>
+						<Nav.Link as={Link} to="/posts/new">Posts</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

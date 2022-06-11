@@ -1,1 +1,17 @@
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap-dark-5/scss/dark/functions";
+@import "~bootstrap-dark-5/scss/variables-alt";
+
 @import "~bootstrap-dark-5/dist/css/bootstrap-dark.min.css";
+@import '~react-toastify/dist/ReactToastify.min.css';
+
+:root {
+	--toastify-color-light: #{$light-alt};
+	--toastify-color-dark: #{$dark-alt};
+	--toastify-color-info: #{$info-alt};
+	--toastify-color-success: #{$success-alt};
+	--toastify-color-warning: #{$warning-alt};
+	--toastify-color-error: #{$danger-alt};
+}

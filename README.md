@@ -12,6 +12,7 @@
 - Cmd + S to save
 - Delete template
 - Image upload
+- Template Sizes
 - Tidy UI
 
 ## Phase 2 - Advanced Offline Application
