@@ -1,4 +1,5 @@
 $primary: #D4401F;
+$link-color: lighten($primary, 10);
 
 @import "./assets/scss/_variables";
 @import "~bootstrap/scss/bootstrap";

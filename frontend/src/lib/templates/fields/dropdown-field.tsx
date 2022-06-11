@@ -1,6 +1,7 @@
 import { AbstractField, Field, FieldType, FieldOption } from "./field";
-import { Form } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import { ChangeEvent, RefObject } from "react";
+import { BsGripVertical, BsPencil } from "react-icons/bs";
 
 export class DropdownField extends AbstractField {
 	type = FieldType.DROPDOWN
@@ -64,7 +65,7 @@ export class DropdownField extends AbstractField {
 				</Form.Group>
 				<Form.Group className="mb-3">
 					<Form.Label>Dropdown Options</Form.Label>
-					<Form.Control as="textarea" onChange={updateOptions} defaultValue={this.field.options?.map(option => `${option.name}: ${option.title}`)} placeholder="One option per line" />
+					<Form.Control as="textarea" onChange={updateOptions} defaultValue={this.field.options?.map(option => `${option.name}: ${option.title}`).join("\n")} placeholder="One option per line" />
 				</Form.Group>
 			</>
 		);

@@ -7,9 +7,7 @@
 - Export posts
 
 **TODO**
-- Template selector
 - Number field
-- Cmd + S to save
 - Delete template
 - Image upload
 - Template Sizes

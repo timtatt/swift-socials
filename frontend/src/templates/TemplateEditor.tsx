@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { db } from './../lib/database';
-import { Template } from './../lib/templates/template';
+import { Template, templateSizes } from './../lib/templates/template';
 import Editor from "@monaco-editor/react";
 import { Monaco } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
 import { TemplatePreview } from './TemplatePreview';
 import FormEditor from './FormEditor';
+import tinykeys from "tinykeys";
 
-import { Container, Row, Col, Button, Form, Card, Tabs, Tab, Alert, Breadcrumb, Navbar } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Tabs, Tab, Alert, Breadcrumb } from 'react-bootstrap';
 import { getDefaultFormData, saveTemplate } from './../lib/templates/template';
 import { Field } from '../lib/templates/fields';
 import Immutable from 'immutable';
@@ -35,6 +36,19 @@ export default function TemplateEditor() {
 
 	const [dummyData, setDummyData] = useState<any>({});
 	const [template, setTemplate] = useState<Template | null>(null);
+
+	useEffect(() => {
+		const unsubscribe = tinykeys(window, {
+			'$mod+s': event => {
+				saveTemplateToDb();
+				event.preventDefault();
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		}
+	}, []);
 
 	useEffect(() => {
 		if (params.templateId === 'new') {
@@ -104,6 +118,13 @@ export default function TemplateEditor() {
 		}
 	}
 
+	const updateTemplateSize = (event: ChangeEvent<HTMLSelectElement>) => {
+		if (template) {
+			template.size = templateSizes.get(event.target.value)!;
+			setTemplate(Object.assign({}, template));
+		}
+	}
+
 	const updateCssLint = (monaco: Monaco) => {
 		monaco.languages.css.cssDefaults.setOptions({
 			lint: {
@@ -127,43 +148,49 @@ export default function TemplateEditor() {
 
 	return template ? (
 		<Layout>
-			<Navbar>
-				<Container>
-					<Breadcrumb>
-						<Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-						<Breadcrumb.Item linkAs={Link} linkProps={{to: "/templates"}}>Templates</Breadcrumb.Item>
-						<Breadcrumb.Item href="#">{template.name}</Breadcrumb.Item>
-					</Breadcrumb>
-				</Container>
-			</Navbar>
-			<Container fluid>
-				<Row className="g-0 my-2">
+			<Container>
+				<Row>
 					<Col>
-						<TemplatePreview ref={templatePreviewRef} layoutProperties={dummyData} size={template.size} layout={template.layout} style={template.style} />
-						<Row>
-							<Col>
-								<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								<Button onClick={saveTemplateToDb}>Save Template</Button>
-							</Col>
-						</Row>
+						<Breadcrumb className="my-3">
+							<Breadcrumb.Item href="#">Home</Breadcrumb.Item>
+							<Breadcrumb.Item linkAs={Link} linkProps={{to: "/templates"}}>Templates</Breadcrumb.Item>
+							<Breadcrumb.Item href="#">{template.name}</Breadcrumb.Item>
+						</Breadcrumb>
+						<h2 className="h3">Edit Template: {template.name}</h2>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<Form.Group>
+							<Form.Label>Template Name</Form.Label>
+							<Form.Control type="text" defaultValue={template.name} onChange={event => template.name = event.target.value} />
+						</Form.Group>
 					</Col>
 					<Col>
-						<Card body>
-							<Card.Title>Sample Data</Card.Title>
-							<pre>
-								<code>{JSON.stringify(dummyData, null, 2)}</code>
-							</pre>
-						</Card>
+						<Form.Group>
+							<Form.Label>Template Size</Form.Label>
+							<Form.Select defaultValue={template.name} onChange={updateTemplateSize}>
+								{Array.from(templateSizes.entries()).map(([key, size]) => <option value={key}>{size.name}</option>)}
+							</Form.Select>
+						</Form.Group>
+						<Button onClick={saveTemplateToDb}>Save Template</Button>
 					</Col>
+				</Row>
+				<hr />
+				<h3 className="h5 mb-3">Template Layout Editor</h3>
+				<Row className="my-2">
 					<Col>
-						<Tabs>
+						<Tabs defaultActiveKey="layout">
+							<Tab eventKey="sample" title="Sample Data">
+								<div className="p-4">
+									<pre>
+										<code>{JSON.stringify(dummyData, null, 2)}</code>
+									</pre>
+								</div>
+							</Tab>
 							<Tab eventKey="layout" title="Layout">
 								<Editor
-									height="90vh"
+									height="70vh"
 									defaultLanguage="html"
 									theme="vs-dark"
 									onMount={editor => htmlEditor.current = editor}
@@ -174,7 +201,7 @@ export default function TemplateEditor() {
 							<Tab eventKey="styles" title="Styles">
 								{/* TODO scope css to prevent affecting the template page */}
 								<Editor
-									height="90vh"
+									height="70vh"
 									defaultLanguage="css"
 									theme="vs-dark"
 									onMount={editor => cssEditor.current = editor}
@@ -185,7 +212,12 @@ export default function TemplateEditor() {
 							</Tab>
 						</Tabs>
 					</Col>
+					<Col>
+						<TemplatePreview ref={templatePreviewRef} layoutProperties={dummyData} size={template.size} layout={template.layout} style={template.style} />
+					</Col>
 				</Row>
+				<hr />
+				<h3 className="h5 my-3">Template Form Editor</h3>
 				<Row>
 					<Col>
 						<FormEditor fields={template.form} onFieldUpdate={fieldsUpdated} />

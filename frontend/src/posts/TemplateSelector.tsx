@@ -32,7 +32,7 @@ export const TemplateSelector = ({onSelect = () => {}}: TemplateSelectorProps) =
 					{templates.map((template, index) => {
 						return (
 							<Col key={index}>
-								<Card className={`thickboy ${selectedTemplate == template ? 'selected' : ''}`} border={selectedTemplate == template ? 'primary' : ''} onClick={() => selectTemplate(template)}>
+								<Card className={`template thickboy ${selectedTemplate == template ? 'selected' : ''}`} border={selectedTemplate == template ? 'primary' : ''} onClick={() => selectTemplate(template)}>
 									<Card.Img src={placeholder} variant="top" />
 									<Card.Body>
 										<Card.Title>{template.name}</Card.Title>

@@ -1,6 +1,7 @@
 import { AbstractField, Field, FieldType } from "./field";
-import { Form } from 'react-bootstrap';
+import { Card, Form, Col, Row, Button } from 'react-bootstrap';
 import { ChangeEvent } from "react";
+import { BsGripVertical, BsPencil } from 'react-icons/bs';
 
 export class TextField extends AbstractField {
 	type = FieldType.TEXT_FIELD

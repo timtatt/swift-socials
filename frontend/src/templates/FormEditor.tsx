@@ -45,8 +45,14 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 		}));
 	}
 
-	const editField = (field: Field, index: number) => {
-		setFields(iFields.set(index, Object.assign({}, field)));
+	const editField = (field: Field | null, index: number) => {
+		var newFields;
+		if (!field) {
+			newFields = iFields.remove(index);
+		} else {
+			newFields = iFields.set(index, Object.assign({}, field));
+		}
+		setFields(newFields);
 	}
 
 	const verifyNames: () => boolean = () => {
@@ -79,25 +85,19 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 			onFieldUpdate(iFields);
 		}
 	}
-	
-	const clearFields = () => {
-		setFields(iFields.clear());
-	}
-
 
 	return (
 		<>
 			{alert.show ? <Alert variant="danger">{alert.message}</Alert> : ""}
-			<Row md={5} className="g-4">
 				{iFields.map((field, index) => (
-					<Col key={index}>
-						<FieldEditor field={field} onFieldUpdate={() => editField(field, index)} />
-					</Col>
+					<Row key={`${index}-${field.name}`}>
+						<Col>
+							<FieldEditor field={field} onFieldUpdate={updatedField => editField(updatedField, index)} />
+						</Col>
+				</Row>
 				)).valueSeq()}
-			</Row>
 			<Button onClick={saveForm} variant="primary">Save Form</Button>
 			<Button onClick={addField} variant="secondary">Add Field</Button>
-			<Button onClick={clearFields} variant="secondary">Clear Fields</Button>
 		</>
 	);
 }

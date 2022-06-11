@@ -1,10 +1,10 @@
 import Parser from 'html-react-parser';
 import Mustache from 'mustache';
 import { ForwardedRef, forwardRef, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { TemplateSize } from '../lib/templates/template';
 import { usePinch } from '@use-gesture/react';
-import { relative } from 'path';
+import { BsZoomIn, BsZoomOut, BsArrowsFullscreen, BsMenuButtonFill } from 'react-icons/bs';
 
 interface TemplatePreviewProps {
 	layout: string,
@@ -62,6 +62,19 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 	return (
 		<>
 		{/* TODO: use Ratio element */}
+			<ButtonToolbar className="mb-3">
+				<ButtonGroup className="me-2">
+					<Button variant="secondary" onClick={() => setTemplateScale(Math.min(templateScale + 0.5, maxScale))}>
+						<BsZoomIn />
+					</Button>
+					<Button variant="secondary" disabled={templateScale <= minScale} onClick={() => setTemplateScale(Math.max(templateScale - 0.5, minScale))}>
+						<BsZoomOut />
+					</Button>
+					<Button variant="secondary" disabled={templateScale <= minScale} onClick={calculateTemplateScale}>
+						<BsArrowsFullscreen />
+					</Button>
+				</ButtonGroup>
+			</ButtonToolbar>
 			<div className="template-preview-wrapper" ref={templateWrapperRef} style={{
 				background: 'red',
 				width: '100%',
@@ -93,12 +106,8 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 							<style>{Parser(props.style)}</style>
 						</div>
 					</div>
-
 				</div>
 			</div>
-			<Button onClick={() => setTemplateScale(Math.min(templateScale + 0.5, maxScale))}>Zoom In</Button>
-			<Button disabled={templateScale <= minScale} onClick={() => setTemplateScale(Math.max(templateScale - 0.5, minScale))}>Zoom Out</Button>
-			<Button onClick={calculateTemplateScale}>See All</Button>
 		</>
 	);
 });
