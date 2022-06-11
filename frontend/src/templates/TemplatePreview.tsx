@@ -4,6 +4,7 @@ import { ForwardedRef, forwardRef, MutableRefObject, useCallback, useEffect, use
 import { Button } from 'react-bootstrap';
 import { TemplateSize } from '../lib/templates/template';
 import { usePinch } from '@use-gesture/react';
+import { relative } from 'path';
 
 interface TemplatePreviewProps {
 	layout: string,
@@ -48,6 +49,13 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 	}, [props.layoutProperties, props.layout]);
 
 	useEffect(() => {
+		if (templateWrapperRef.current) {
+			const sizeRatio = props.size.height / props.size.width * 100;
+			templateWrapperRef.current.style.paddingTop = `${sizeRatio}%`
+		}
+	}, [props.size]);
+
+	useEffect(() => {
 		calculateTemplateScale();
 	}, [calculateTemplateScale]);
 
@@ -55,12 +63,16 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 		<>
 			<div className="template-preview-wrapper" ref={templateWrapperRef} style={{
 				background: 'red',
-				width: '400px',
-				height: '400px',
+				width: '100%',
+				// paddingTop: '100%',
+				position: 'relative',
 				overflow: 'scroll',
 				userSelect: 'none'
 			}}>
 				<div className="template-preview-inner" style={{
+					position: 'absolute',
+					top: 0,
+					left: 0,
 					width: props.size.width * templateScale,
 					height: props.size.height * templateScale,
 				}}>
