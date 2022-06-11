@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Layout } from '../common/Layout';
-import { Template } from '../lib/templates/template';
+import { getDefaultFormData, Template } from '../lib/templates/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
 import { db } from './../lib/database';
@@ -18,6 +18,7 @@ export const PostEditor = () => {
 	useEffect(() => {
 		if (template && template.layout) {
 			setLayout(template.layout);
+			setFormData(getDefaultFormData(template));
 		}
 	}, [template]);
 
