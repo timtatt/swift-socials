@@ -1,4 +1,5 @@
-import { Field, FieldType, getFieldComponents } from '../lib/templates/fields';
+import { Field, FieldType } from '../fields/Field';
+import { getFieldComponents } from '../lib/field-factory';
 import { Form, InputGroup, Button, Row, Col, Modal } from 'react-bootstrap';
 import { useState } from 'react';
 

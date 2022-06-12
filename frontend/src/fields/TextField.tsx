@@ -1,6 +1,6 @@
 import { Form } from 'react-bootstrap';
 import { ChangeEvent } from "react";
-import { BasicFieldSummary, FieldComponents, FieldEditorProps, FieldProps, FieldSummaryProps, AbstractField, FieldType } from "./field";
+import { BasicFieldSummary, FieldComponents, FieldEditorProps, FieldProps, FieldSummaryProps, AbstractField, FieldType } from "./Field";
 
 const TextFieldRender = ({ field, onFieldUpdate }: FieldProps) => {
 	return (

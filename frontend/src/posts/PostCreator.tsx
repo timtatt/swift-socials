@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { Layout } from '../common/Layout';
-import { Template } from '../lib/templates/template';
+import { Template } from '../lib/template';
 import { PostEditor } from './PostEditor';
 import { TemplateSelector } from './TemplateSelector';
 

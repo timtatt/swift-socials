@@ -1,7 +1,7 @@
-import { DropdownField } from './dropdown-field';
-import { Field, FieldType, FieldComponents, AbstractField } from './field';
-import { ImageUploadField } from './image-upload-field';
-import { TextField } from './text-field';
+import { DropdownField } from '../fields/DropdownField';
+import { Field, FieldType, FieldComponents, AbstractField } from '../fields/Field';
+import { ImageUploadField } from '../fields/ImageUploadField';
+import { TextField } from '../fields/TextField';
 
 
 export const getFieldComponents = (field: Field): FieldComponents => {

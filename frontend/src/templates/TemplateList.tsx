@@ -1,7 +1,7 @@
 import { db } from './../lib/database';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Template } from '../lib/templates/template';
+import { Template } from '../lib/template';
 import { Layout } from '../common/Layout';
 import { Button } from 'react-bootstrap';
 

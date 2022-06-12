@@ -1,4 +1,4 @@
-import { AbstractField, Field, FieldType } from "./field";
+import { AbstractField, Field, FieldType } from "./Field";
 import { Form } from 'react-bootstrap';
 import { ChangeEvent } from "react";
 

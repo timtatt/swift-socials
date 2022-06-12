@@ -1,5 +1,5 @@
 import { Dexie } from 'dexie';
-import { Template } from './templates/template';
+import { Template } from './template';
 
 export class SwiftSocialsDB extends Dexie {
 	templates!: Dexie.Table<Template, number>;

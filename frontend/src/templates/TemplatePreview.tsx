@@ -2,7 +2,7 @@ import Parser from 'html-react-parser';
 import Mustache from 'mustache';
 import { ForwardedRef, forwardRef, MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import { TemplateSize } from '../lib/templates/template';
+import { TemplateSize } from '../lib/template';
 import { usePinch } from '@use-gesture/react';
 import { BsZoomIn, BsZoomOut, BsArrowsFullscreen } from 'react-icons/bs';
 

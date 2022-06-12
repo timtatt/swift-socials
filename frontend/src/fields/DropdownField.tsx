@@ -1,6 +1,6 @@
-import { AbstractField, FieldType, FieldOption, FieldProps, FieldEditorProps, FieldSummaryProps, BasicFieldSummary, FieldComponents } from "./field";
 import { Form } from 'react-bootstrap';
 import { ChangeEvent, useRef } from "react";
+import { AbstractField, FieldType, FieldOption, FieldProps, FieldEditorProps, FieldSummaryProps, BasicFieldSummary, FieldComponents } from "./Field";
 
 const DropdownFieldRender = ({field, onFieldUpdate}: FieldProps) => {
 	return (

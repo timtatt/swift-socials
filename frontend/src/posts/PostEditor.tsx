@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { getDefaultFormData, Template } from '../lib/templates/template';
+import { getDefaultFormData, Template } from '../lib/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
 import { toPng } from 'html-to-image';

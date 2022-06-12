@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { db } from './../lib/database';
-import { Template, templateSizes } from './../lib/templates/template';
+import { Template, templateSizes } from '../lib/template';
 import Editor from "@monaco-editor/react";
 import { Monaco } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor';
@@ -9,8 +9,8 @@ import FormEditor from './FormEditor';
 import tinykeys from "tinykeys";
 
 import { Container, Row, Col, Button, Form, Tabs, Tab, Alert, Breadcrumb } from 'react-bootstrap';
-import { getDefaultFormData, saveTemplate } from './../lib/templates/template';
-import { Field } from '../lib/templates/fields';
+import { getDefaultFormData, saveTemplate } from '../lib/template';
+import { Field } from '../fields/Field';
 import Immutable from 'immutable';
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { Layout } from './../common/Layout';

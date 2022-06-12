@@ -1,4 +1,4 @@
-import { Field, FieldType } from './../lib/templates/fields';
+import { Field, FieldType } from './../fields/Field';
 import { Button, Row, Col, Alert } from 'react-bootstrap';
 import { useState } from 'react';
 import { faker } from '@faker-js/faker';

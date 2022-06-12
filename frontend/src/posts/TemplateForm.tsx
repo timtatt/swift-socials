@@ -2,8 +2,8 @@
 import Immutable from 'immutable';
 import { useEffect, useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
-import { getFieldComponents } from '../lib/templates/fields';
-import { getDefaultFormData, Template } from '../lib/templates/template';
+import { getFieldComponents } from '../lib/field-factory';
+import { getDefaultFormData, Template } from '../lib/template';
 
 type TemplateFormProps = {
 	template: Template,

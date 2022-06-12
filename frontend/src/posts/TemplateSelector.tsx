@@ -3,7 +3,7 @@ import { Card, Row, Col, Container, Button } from 'react-bootstrap';
 import placeholder from './../assets/placeholder.jpeg';
 import './Posts.scss';
 import { FaLongArrowAltRight } from "react-icons/fa";
-import { Template } from '../lib/templates/template';
+import { Template } from '../lib/template';
 import { db } from './../lib/database';
 
 type TemplateSelectorProps = {
