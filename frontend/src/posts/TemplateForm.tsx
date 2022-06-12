@@ -1,8 +1,8 @@
 
 import Immutable from 'immutable';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
-import { getField } from '../lib/templates/fields';
+import { getFieldComponents } from '../lib/templates/fields';
 import { getDefaultFormData, Template } from '../lib/templates/template';
 
 type TemplateFormProps = {
@@ -32,7 +32,10 @@ export const TemplateForm = ({template, onFormUpdate = () => {}}: TemplateFormPr
 				{template.form.map(field => (
 					<Row key={field.name}>
 						<Col>
-							{getField(field).renderField(value => setFieldData(field.name, value))}
+							{getFieldComponents(field).field({
+								field,
+								onFieldUpdate: value => setFieldData(field.name, value)
+							})}
 						</Col>
 					</Row>
 				))}

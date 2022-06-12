@@ -4,7 +4,7 @@ import { ForwardedRef, forwardRef, MutableRefObject, useCallback, useEffect, use
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { TemplateSize } from '../lib/templates/template';
 import { usePinch } from '@use-gesture/react';
-import { BsZoomIn, BsZoomOut, BsArrowsFullscreen, BsMenuButtonFill } from 'react-icons/bs';
+import { BsZoomIn, BsZoomOut, BsArrowsFullscreen } from 'react-icons/bs';
 
 interface TemplatePreviewProps {
 	layout: string,

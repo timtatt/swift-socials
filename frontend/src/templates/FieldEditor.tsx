@@ -1,6 +1,6 @@
-import { Field, FieldType, getField } from '../lib/templates/fields';
+import { Field, FieldType, getFieldComponents } from '../lib/templates/fields';
 import { Form, InputGroup, Button, Row, Col, Modal } from 'react-bootstrap';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 interface FieldProps {
 	field: Field,
@@ -8,7 +8,6 @@ interface FieldProps {
 }
 
 export const FieldEditor = (props: FieldProps) => {
-	const defaultValueRef = useRef<HTMLSelectElement>(null);
 
 	const [showFieldModal, setShowFieldModal] = useState<boolean>(false);
 	const [field, setField] = useState<Field>(props.field);
@@ -50,7 +49,10 @@ export const FieldEditor = (props: FieldProps) => {
 									</Form.Select>
 								</Form.Group>
 							</Col>
-							{getField(field).renderFieldEditor(updatedField => updateField(updatedField), defaultValueRef)}
+							{getFieldComponents(field).fieldEditor({
+								field,
+								onFieldUpdate: updatedField => updateField(updatedField)
+							})}
 						</Row>
 					</Form>
 				</Modal.Body>
@@ -63,7 +65,11 @@ export const FieldEditor = (props: FieldProps) => {
 					</Button>
 				</Modal.Footer>
 			</Modal>
-			{getField(field).renderFieldSummary(() => setShowFieldModal(true), () => props.onFieldUpdate(null))}
+			{getFieldComponents(field).fieldSummary({
+				field,
+				onStartEdit: () => setShowFieldModal(true),
+				onDelete: () => props.onFieldUpdate(null),
+			})}
 		</>
 	);
 }

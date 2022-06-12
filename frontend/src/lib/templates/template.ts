@@ -1,4 +1,4 @@
-import { getField, Field } from "./fields";
+import { Field, getField } from "./fields";
 import { db } from './../database';
 
 export interface TemplateSize {

@@ -7,6 +7,7 @@
 - Export posts
 
 **TODO**
+- Remodel field components
 - Number field
 - Delete template
 - Image upload
