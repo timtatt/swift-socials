@@ -57,6 +57,12 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 
 	useEffect(() => {
 		calculateTemplateScale();
+
+		window.addEventListener('resize', calculateTemplateScale);
+
+		return () => {
+			window.removeEventListener('resize', calculateTemplateScale);
+		}
 	}, [calculateTemplateScale]);
 
 	return (
