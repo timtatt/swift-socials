@@ -41,7 +41,8 @@ export default function FormEditor({fields = [], onFieldUpdate = () => {}}: Form
 			name: fieldName,
 			label: 'New Field',
 			type: FieldType.TEXT_FIELD,
-			defaultValue: faker.name.findName()
+			defaultValue: faker.name.findName(),
+			settings: {}
 		}));
 	}
 

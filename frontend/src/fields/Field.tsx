@@ -1,5 +1,6 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsGripVertical, BsPencil, BsTrash } from "react-icons/bs";
+import { Template } from "../lib/template";
 
 export enum FieldType {
 	TEXT_FIELD = "TextField",
@@ -12,11 +13,12 @@ export interface FieldOption {
 	title: string;
 }
 
-export interface Field {
+export interface Field<T = any> {
 	name: string;
 	label: string;
 	type: FieldType;
 	defaultValue: any;
+	settings: T,
 	options?: FieldOption[];
 	children?: Map<string, Field>;
 }
