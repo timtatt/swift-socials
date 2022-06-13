@@ -45,7 +45,9 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 	}, [templatePreviewRef, templateWrapperRef]);
 
 	useEffect(() => {
-		setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
+		try {
+			setTemplateHtml(Mustache.render(props.layout, props.layoutProperties))
+		} catch (err) {}
 	}, [props.layoutProperties, props.layout]);
 
 	useEffect(() => {
@@ -104,11 +106,17 @@ export const TemplatePreview = forwardRef((props: TemplatePreviewProps, template
 					}}>
 						<div className="template-preview" ref={templatePreviewRef} style={{
 							width: props.size.width,
-							height: props.size.height
+							height: props.size.height,
+							overflow: 'hidden'
 						}}>
 							{/* TODO: scaling export to 1200x1200 */}
 							{/* TODO: add sanitising for XSS */}
-							{Parser(templateHtml)}
+							<div dangerouslySetInnerHTML={{
+								__html: templateHtml
+							}} style={{
+								width: '100%',
+								height: '100%',
+							}}></div>
 							<style>{Parser(props.style)}</style>
 						</div>
 					</div>

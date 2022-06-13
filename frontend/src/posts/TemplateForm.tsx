@@ -30,7 +30,7 @@ export const TemplateForm = ({template, onFormUpdate = () => {}}: TemplateFormPr
 		<>
 			<Form>
 				{template.form.map(field => (
-					<Row key={field.name}>
+					<Row key={field.name} className="mb-2">
 						<Col>
 							{getFieldComponents(field).field({
 								field,

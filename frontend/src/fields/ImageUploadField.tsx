@@ -1,9 +1,9 @@
 import { AbstractField, BasicFieldSummary, FieldEditorProps, FieldProps, FieldType, FieldComponents, FieldSummaryProps, Field } from "./Field";
-import { Form, Button } from 'react-bootstrap';
-import { ChangeEvent, InputHTMLAttributes, useState } from "react";
-import placeholder from './../assets/placeholder.jpeg';
+import { Form, Button, Modal, InputGroup } from 'react-bootstrap';
+import { ChangeEvent, useState } from "react";
 import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss'
+import placeholder from './../assets/placeholder.jpeg';
 
 interface ImageUploadFieldSettings {
 	aspectRatio: number,
@@ -43,20 +43,21 @@ const ImageUploadFieldRender = (props: FieldProps) => {
 
 	const [crop, setCrop] = useState<PercentCrop>();
 	const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-	const [croppedImage, setCroppedImage] = useState<string | null>(null);
+	const [showCropModal, setShowCropModal] = useState<boolean>(false);
 
 	const onImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
 		const image = event.target.files && event.target.files.length > 0 ? event.target.files[0] : null;
 		setUploadedImage(image);
+		setShowCropModal(true);
 	}
 
 	const cropImage = () => {
 		if (uploadedImage && crop) {
 
-			const url = URL.createObjectURL(uploadedImage);
-			var img = new Image();
+			const uploadedImageUrl = URL.createObjectURL(uploadedImage);
+			const img = new Image();
 
-			img.onload = function () {
+			img.onload = () => {
 				URL.revokeObjectURL(img.src);
 
 				const canvas = document.createElement('canvas');
@@ -64,35 +65,52 @@ const ImageUploadFieldRender = (props: FieldProps) => {
 				canvas.width = img.width * crop.width / 100;
 
 				const ctx = canvas.getContext('2d');
-				console.log(crop);
-				console.log(img.height, img.width);
 				ctx?.drawImage(img, -crop.x * img.width / 100, -crop.y * img.height / 100);
 
-				setCroppedImage(canvas.toDataURL('image/png'))
+				const croppedImageUrl = canvas.toDataURL('image/png');
+				onFieldUpdate(croppedImageUrl);
 			};
+			
+			img.src = uploadedImageUrl;
+			setShowCropModal(false);
 
-			img.src = url;
 		}
 	}
 
 
 	return (
 		<>
+			<Modal size="lg" show={showCropModal} onHide={() => setShowCropModal(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Crop &amp; Set Image</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					{uploadedImage ? (
+						<>
+							<div style={{ position: 'relative' }}>
+								<ReactCrop crop={crop} onChange={(_, crop) => setCrop(crop)} aspect={field.settings.aspectRatio} keepSelection={true}>
+									<img src={URL.createObjectURL(uploadedImage)} style={{ maxHeight: '60vh', maxWidth: '100%' }} />
+								</ReactCrop>
+							</div>
+						</>
+					) : ''}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setShowCropModal(false)}>
+						Cancel
+					</Button>
+					<Button variant="primary" onClick={cropImage}>
+						Use Image
+					</Button>
+				</Modal.Footer>
+			</Modal>
 			<Form.Group>
 				<Form.Label>{field.label}</Form.Label>
-				<Form.Control type="file" onChange={onImageUpload} accept="image/*" />
+				<InputGroup>
+					<Form.Control type="file" onChange={onImageUpload} accept="image/*" />
+					<Button onClick={() => setShowCropModal(true)}>Recrop Image</Button>
+				</InputGroup>	
 			</Form.Group>
-			{uploadedImage ? (
-				<>
-					<div style={{position: 'relative'}}>
-						<ReactCrop crop={crop} onChange={(_, crop) => setCrop(crop)} aspect={field.settings.aspectRatio}>
-							<img src={URL.createObjectURL(uploadedImage)} style={{ maxHeight: '400px', maxWidth: '100%' }} />
-						</ReactCrop>
-					</div>
-					<Button onClick={cropImage}>Crop</Button>
-				</>
-			) : ''}
-			{croppedImage ? <img src={croppedImage} /> : ''}
 		</>
 	);
 }
@@ -107,7 +125,7 @@ export class ImageUploadField extends AbstractField {
 	}
 
 	getDefaultValue() {
-		return this.field.defaultValue;
+		return placeholder;
 	}
 
 
