@@ -1,7 +1,7 @@
 import { AbstractField, BasicFieldSummary, FieldEditorProps, FieldProps, FieldType, FieldComponents, FieldSummaryProps, Field } from "./Field";
 import { Form, Button, Modal, InputGroup } from 'react-bootstrap';
 import { ChangeEvent, useState } from "react";
-import ReactCrop, { Crop, PercentCrop } from 'react-image-crop';
+import ReactCrop, { PercentCrop } from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss'
 import placeholder from './../assets/placeholder.jpeg';
 
@@ -89,7 +89,7 @@ const ImageUploadFieldRender = (props: FieldProps) => {
 						<>
 							<div style={{ position: 'relative' }}>
 								<ReactCrop crop={crop} onChange={(_, crop) => setCrop(crop)} aspect={field.settings.aspectRatio} keepSelection={true}>
-									<img src={URL.createObjectURL(uploadedImage)} style={{ maxHeight: '60vh', maxWidth: '100%' }} />
+									<img alt="Uploaded file preview" src={URL.createObjectURL(uploadedImage)} style={{ maxHeight: '60vh', maxWidth: '100%' }} />
 								</ReactCrop>
 							</div>
 						</>

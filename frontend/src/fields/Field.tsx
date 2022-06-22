@@ -1,6 +1,5 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { BsGripVertical, BsPencil, BsTrash } from "react-icons/bs";
-import { Template } from "../lib/template";
 
 export enum FieldType {
 	TEXT_FIELD = "TextField",

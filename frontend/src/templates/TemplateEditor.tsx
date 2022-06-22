@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { db } from './../lib/database';
 import { Template, templateSizes } from '../lib/template';
 import Editor from "@monaco-editor/react";
@@ -37,6 +37,21 @@ export default function TemplateEditor() {
 	const [dummyData, setDummyData] = useState<any>({});
 	const [template, setTemplate] = useState<Template | null>(null);
 
+	const saveTemplateToDb = useCallback(async () => {
+		if (template) {
+			setTemplate(Object.assign({}, template));
+			await saveTemplate(template);
+
+			if (params.templateId === 'new') {
+				navigate(`/templates/${template.id}`);
+			}
+
+			toast.success(`Saved: ${template.name}`, {
+				theme: "colored"
+			});
+		}
+	}, [navigate, template, params.templateId]);
+
 	useEffect(() => {
 		const unsubscribe = tinykeys(window, {
 			'$mod+s': event => {
@@ -48,7 +63,7 @@ export default function TemplateEditor() {
 		return () => {
 			unsubscribe();
 		}
-	}, []);
+	}, [saveTemplateToDb]);
 
 	useEffect(() => {
 		if (params.templateId === 'new') {
@@ -86,21 +101,6 @@ export default function TemplateEditor() {
 			});
 		}
 	}, [params]);
-
-	const saveTemplateToDb = async () => {
-		if (template) {
-			setTemplate(Object.assign({}, template));
-			await saveTemplate(template);
-
-			if (params.templateId === 'new') {
-				navigate(`/templates/${template.id}`);
-			}
-
-			toast.success(`Saved: ${template.name}`, {
-				theme: "colored"
-			});
-		}
-	}
 
 	// TODO: update styles when no marker is updated
 	const updateStyles = (value: string | undefined) => {

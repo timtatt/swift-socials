@@ -10,7 +10,7 @@ type TemplateSelectorProps = {
 	onSelect?: (template: Template) => void
 }
 
-export const TemplateSelector = ({onSelect = () => {}}: TemplateSelectorProps) => {
+export const TemplateSelector = ({ onSelect = () => { } }: TemplateSelectorProps) => {
 
 	const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
 	const [templates, setTemplates] = useState<Template[]>([]);
@@ -22,9 +22,9 @@ export const TemplateSelector = ({onSelect = () => {}}: TemplateSelectorProps) =
 	useEffect(() => {
 		db.templates.toArray().then(storedTemplates => {
 			setTemplates(storedTemplates);
-		});		
+		});
 	}, []);
-	
+
 	return (
 		<>
 			<Container fluid className="p-4">
