@@ -99,7 +99,7 @@ const ImageUploadFieldRender = (props: FieldProps) => {
 					<Button variant="secondary" onClick={() => setShowCropModal(false)}>
 						Cancel
 					</Button>
-					<Button variant="primary" onClick={cropImage}>
+					<Button variant="primary" onClick={cropImage} disabled={typeof crop === 'undefined'}>
 						Use Image
 					</Button>
 				</Modal.Footer>

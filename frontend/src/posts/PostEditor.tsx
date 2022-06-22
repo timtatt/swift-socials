@@ -4,12 +4,14 @@ import { getDefaultFormData, Template } from '../lib/template';
 import { TemplatePreview } from '../templates/TemplatePreview';
 import { TemplateForm } from './TemplateForm';
 import { toPng } from 'html-to-image';
+import { BsFillCaretLeftFill, BsDownload } from 'react-icons/bs';
 
 type PostEditorProps = {
-	template: Template
+	template: Template,
+	onChangeTemplate?: () => void
 }
 
-export const PostEditor = ({ template }: PostEditorProps) => {
+export const PostEditor = ({ template, onChangeTemplate = () => {} }: PostEditorProps) => {
 
 	const [layout, setLayout] = useState<string>("");
 	const [formData, setFormData] = useState<any>({});
@@ -42,14 +44,15 @@ export const PostEditor = ({ template }: PostEditorProps) => {
 
 	return (
 		<>
-			<Container fluid>
+			<Container fluid className="my-3">
 				<Row>
 					<Col md={4}>
 						<TemplatePreview ref={previewRef} layoutProperties={formData} size={template.size} layout={layout} style={template.style} />
-						<Button onClick={exportPost}>Export Post</Button>
 					</Col>
 					<Col>
+						<Button onClick={onChangeTemplate} variant="secondary" className="mb-3"><BsFillCaretLeftFill /> Change Template</Button>
 						<TemplateForm template={template} onFormUpdate={data => setFormData(data)} />
+						<Button onClick={exportPost} className="mt-2"><BsDownload /> Export Post</Button>
 					</Col>
 				</Row>
 			</Container>

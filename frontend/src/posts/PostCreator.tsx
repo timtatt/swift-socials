@@ -26,14 +26,7 @@ export const PostCreator = () => {
 						<h2 className="display-5 fw-bold">Create a Post</h2>
 						<p className="fs-4">Use the form to modify your post</p>
 					</Row>
-					<Container>
-						<Row>
-							<Col>
-								<Button onClick={() => setTemplate(null)}>Change Template</Button>
-							</Col>
-						</Row>
-					</Container>
-					<PostEditor template={template} />
+					<PostEditor template={template} onChangeTemplate={() => setTemplate(null)} />
 				</>
 			)}
 		</Layout>
