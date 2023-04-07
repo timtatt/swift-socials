@@ -1,0 +1,30 @@
+{
+  "short_name": "Swift Socials",
+  "name": "Swift Socials",
+  "icons": [
+    {
+      "src": "favicon_32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+		{
+			"src": "favicon_128.png",
+			"type": "image/png",
+			"sizes": "128x128"
+		},
+		{
+			"src": "favicon_180.png",
+			"type": "image/png",
+			"sizes": "180x180"
+		},
+		{
+			"src": "favicon_192.png",
+			"type": "image/png",
+			"sizes": "192x192"
+		}
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

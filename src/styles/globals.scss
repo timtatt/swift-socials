@@ -1,0 +1,11 @@
+@import 'variables.scss';
+@import '~bootstrap/scss/bootstrap.scss';
+
+:root {
+	--toastify-color-light: #{$light};
+	--toastify-color-dark: #{$dark};
+	--toastify-color-info: #{$info};
+	--toastify-color-success: #{$success};
+	--toastify-color-warning: #{$warning};
+	--toastify-color-error: #{$danger};
+}
