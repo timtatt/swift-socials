@@ -1,0 +1,40 @@
+{
+  "name": "swift-socials",
+  "version": "3.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@monaco-editor/react": "^4.4.6",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11",
+    "@use-gesture/react": "^10.2.25",
+    "bootstrap": "^5.2.3",
+    "dexie": "^3.2.3",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.3.0",
+    "html-react-parser": "^3.0.15",
+    "html-to-image": "^1.11.11",
+    "monaco-editor": "^0.37.1",
+    "mustache": "^4.2.0",
+    "next": "13.3.0",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.2",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0",
+    "react-image-crop": "^10.0.9",
+    "react-toastify": "^9.1.2",
+    "sass": "^1.61.0",
+    "tinykeys": "^1.4.0",
+    "typescript": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/mustache": "^4.2.2"
+  }
+}
