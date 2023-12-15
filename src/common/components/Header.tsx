@@ -1,19 +1,12 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+'use client';
+
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import pkg from '@/../package.json';
 
 export type HeaderProps = {
 	version: string
 }
 
 export const Header = ({ version }: HeaderProps) => {
-	const [info, setInfo] = useState(null);
-
-	// useEffect({
-
-	// }, []);
-
 	return (
 		<Navbar bg="primary" expand="lg" variant="dark">
 			<Container>

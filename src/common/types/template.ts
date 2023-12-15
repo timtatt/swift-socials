@@ -1,5 +1,5 @@
 import { getField } from '../lib/field-factory';
-import { db } from '../lib/database';
+import { Types } from 'mongoose';
 import { Field } from './fields';
 
 export interface TemplateSize {
@@ -13,7 +13,7 @@ export type TemplateFormData = {
 }
 
 export interface Template {
-	id?: number
+	id?: Types.ObjectId
 	style: string
 	layout: string,
 	size?: TemplateSize
